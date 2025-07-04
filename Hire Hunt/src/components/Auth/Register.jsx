@@ -4,7 +4,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 
 import { Link } from "react-router-dom";
-import Login from './Login';
+import Login from './Login.jsx';
 import axios from 'axios';
 
 const Register = () => {
@@ -26,7 +26,7 @@ const data = {
 }
 
 try {
-  const res = await axios.post("http://localhost:3000/sign-up", data);
+  const res = await axios.post("http://localhost:3000/auth/sign-up", data);
   console.log(`submitted`, res);
 } catch (error) {
   console.error("Error submitting form:", error.message);

@@ -19,12 +19,15 @@ const jobSchema = mongoose.Schema(
       required: true,
     },
     salary: {
-      type: Number,
+      type: String,
       required: true,
     },
-    jobType:{
+    jobType: {
       type: String,
-    //   enum: ['Full-time', 'Part-time', 'Contract', 'Internship'],
+      required: true,
+    },
+    skills: {
+      type: String,
       required: true,
     },
     experience: {
@@ -32,9 +35,8 @@ const jobSchema = mongoose.Schema(
       required: true,
     },
     postedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   { timestamps: true }
