@@ -27,9 +27,9 @@ console.log(userId);
     const data = {
       jobTitle,
       companyName,
-      location,
+      location : location.toUpperCase(),
       jobType,
-      salary: `${salary} LPA`,
+      salary: salary,
       experience,
       description,
       skills,

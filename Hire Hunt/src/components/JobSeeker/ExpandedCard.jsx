@@ -1,11 +1,110 @@
-import React, { use, useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
+// import { IoMdClose } from "react-icons/io";
+// import { IoArrowBack } from "react-icons/io5";
+// import Footer from "../Reusable.jsx/Footer.jsx";
+
+// const ExpandedCard = ({ closeExpand, job }) => {
+//   const [resume, setResume] = useState(null);
+
+//   useEffect(() => {
+//     document.body.style.overflow = "hidden";
+//     return () => {
+//       document.body.style.overflow = "auto";
+//     };
+//   }, []);
+
+//   return (
+//     <div className="fixed inset-0 z-50 bg-white overflow-y-auto   shadow-xl">
+//       {/* Close Buttons */}
+//       <div className=" flex justify-between items-center  p-4  shadow-lg bg-black">
+//         <button
+//           onClick={closeExpand}
+//           className="text-[#c8ac5a] text-2xl bg-black p-1 rounded-full hover:bg-[#E0C163] hover:text-black duration-300"
+//         >
+//           <IoArrowBack />
+//         </button>{" "}
+//         <h1 className="text-4xl text-[#c8ac5a]  p-1 ">Job Details</h1>
+//         <button
+//           onClick={closeExpand}
+//           className="text-[#c8ac5a] text-2xl bg-black p-1 rounded-full hover:bg-[#E0C163] hover:text-black duration-300"
+//         >
+//           <IoMdClose />
+//         </button>
+//       </div>
+
+//       {/* Job Details */}
+//       <section className=" flex justify-center items-center">
+//         <div className=" flex justify-center items-center bg-gray-100 p-4 w-[50%] text-center ">
+//           <div className="space-y-6  text-lg">
+//             <Detail label="Job Title" value={job.jobTitle} />
+//             <Detail label="Company Name" value={job.companyName} />
+//             <Detail label="Location" value={job.location} />
+//             <Detail label="Job Type" value={job.jobType} />
+//             <Detail label="Experience" value={job.experience} />
+//             <Detail label="Salary" value={`${job.salary} LPA`} />
+//             <Detail label="Skills" value={job.skills} />
+//             <Detail label="Description" value={job.description} />
+
+//             {/* Resume Upload */}
+//             <div>
+//               <h2 className="text-xl font-semibold mb-2">Upload Resume:</h2>
+//               <input
+//                 onChange={(e) => setResume(e.target.files[0])}
+//                 type="file"
+//                 className="block w-full p-2 border border-black rounded-md bg-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-[#E0C163] file:text-black file:font-semibold hover:file:bg-black hover:file:text-[#E0C163] transition"
+//               />
+//             </div>
+
+//             {/* Apply Button */}
+//             <div className="flex justify-center pt-6">
+//               <button
+//                 disabled={!resume}
+//                 className={`w-full md:w-1/2 py-3 rounded-lg text-lg font-semibold transition 
+//             ${
+//               !resume
+//                 ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+//                 : "bg-black text-[#E0C163] hover:bg-[#E0C163] hover:text-black"
+//             }`}
+//               >
+//                 Apply Now
+//               </button>
+//             </div>
+//           </div>
+//           <div
+//             className="w-1/2 bg-cover bg-center hidden md:block"
+//             style={{
+//               backgroundImage: `url('/images/backGround.jpg')`, // image from public folder
+//             }}
+//           ></div>
+//         </div>
+
+//         <div className="w-[50%]">HURRY UP !!GRAB THE OPPORTUNITY NOW !!</div>
+//       </section>
+
+//       <Footer />
+//     </div>
+//   );
+// };
+
+// // Reusable detail section
+// const Detail = ({ label, value }) => (
+//   <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+//     <h2 className="font-semibold text-gray-700 min-w-[130px]">{label}:</h2>
+//     <p className="text-gray-800 break-words ">{value}</p>
+//   </div>
+// );
+
+// export default ExpandedCard;
+
+
+import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoArrowBack } from "react-icons/io5";
+import Footer from "../Reusable.jsx/Footer.jsx";
 
 const ExpandedCard = ({ closeExpand, job }) => {
-  const [resume, setresume] = useState(null);
+  const [resume, setResume] = useState(null);
 
-  console.log(job);
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -14,88 +113,82 @@ const ExpandedCard = ({ closeExpand, job }) => {
   }, []);
 
   return (
-    <div className=" text-center  w-[100%] bg-white  h-[100%] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 p-10 ">
-      <button
-        onClick={() => {
-          document.body.style.overflow = "auto";
-          closeExpand();
-        }}
-        className="absolute top-2 right-2 text-xl text-gray-500 hover:text-black duration-300 cursor-pointer"
-      >
-        <IoMdClose />
-      </button>
-
-      <button
-        onClick={() => {
-          document.body.style.overflow = "auto";
-          closeExpand();
-        }}
-        className="absolute top-2 left-2 text-xl text-gray-500 hover:text-black duration-300 cursor-pointer"
-      >
-        <IoArrowBack />
-      </button>
-
-      <div className=" overflow-y-auto  p-6">
-        <h1 className="text-4xl font-bold mb-8">Job Details</h1>
-        <div className="text-center mb-6 flex items-center gap-4 align-center">
-          <h2 className="text-xl font-semibold ">Job Title : </h2>
-          <h3 className="text-xl">{job.jobTitle}</h3>
-        </div>
-        <div className="mb-6 flex items-center gap-4 align-center">
-          <h2 className="text-xl font-semibold ">Company Name : </h2>
-          <h3 className="text-xl">{job.companyName}</h3>
-        </div>
-        <div className="mb-6 flex items-center gap-4 align-center">
-          <h2 className="text-xl font-semibold ">Location : </h2>
-          <h3 className="text-xl">{job.location}</h3>
-        </div>{" "}
-        <div className="mb-6 flex items-center gap-4 align-center">
-          <h2 className="text-xl font-semibold ">Job Type : </h2>
-          <h3 className="text-xl">{job.jobType}</h3>
-        </div>{" "}
-        <div className="mb-6 flex items-center gap-4 align-center">
-          <h2 className="text-xl font-semibold ">Experience : </h2>
-          <h3 className="text-xl">{job.experience}</h3>
-        </div>
-        <div className="mb-6 flex items-center gap-4 align-center">
-          <h2 className="text-xl font-semibold ">Salary : </h2>
-          <h3 className="text-xl">{job.salary}</h3>
-        </div>
-        <div className="mb-6 flex items-center gap-4 align-center">
-          <h2 className="text-xl font-semibold ">Skills : </h2>
-          <h3 className="text-xl">{job.skills}</h3>
-        </div>
-        <div className="mb-6 flex items-center gap-4 align-center">
-          <h2 className="text-xl font-semibold ">Description : </h2>
-          <h3 className="text-xl">{job.description}</h3>
-        </div>
-        <div className="mb-6 flex items-center gap-4 align-center">
-          <h2 className="text-xl font-semibold mb-4">Upload Resume :</h2>
-          <input
-            onChange={(e) => {
-              setresume(e.target.files[0]);
-            }}
-            className="border-black rounded text-center border-2 "
-            type="file"
-          />
-        </div>
-        <div className="flex justify-center mt-8">
-          <button
-            disabled={!resume}
-            className={`w-[50%] border-1 border-black rounded-lg p-2 font-semibold text-center text-lg duration-300 cursor-pointer
-    ${
-      !resume
-        ? "bg-gray-400 text-white cursor-not-allowed"
-        : "bg-black text-[#E0C163] hover:bg-[#E0C163] hover:text-black"
-    }
-  `}
-          >
-            Apply Now
-          </button>
-        </div>
+    <div className="fixed inset-0 z-50 bg-white overflow-y-auto shadow-xl">
+      {/* Header */}
+      <div className="flex justify-between items-center p-4 shadow-lg bg-black">
+        <button
+          onClick={closeExpand}
+          className="text-[#c8ac5a] text-2xl p-1 rounded-full hover:bg-[#E0C163] hover:text-black duration-300"
+        >
+          <IoArrowBack />
+        </button>
+        <h1 className="text-4xl text-[#c8ac5a]">Job Details</h1>
+        <button
+          onClick={closeExpand}
+          className="text-[#c8ac5a] text-2xl p-1 rounded-full hover:bg-[#E0C163] hover:text-black duration-300"
+        >
+          <IoMdClose />
+        </button>
       </div>
+
+      {/* Main Content */}
+      <section className="flex flex-col md:flex-row min-h-[calc(100vh-140px)]">
+        {/* Job Details Section */}
+        <div className="flex-1 bg-gray-100 p-6 flex items-center justify-center">
+          <div className="w-full max-w-xl space-y-6 text-lg">
+            <Detail label="Job Title" value={job.jobTitle} />
+            <Detail label="Company Name" value={job.companyName} />
+            <Detail label="Location" value={job.location} />
+            <Detail label="Job Type" value={job.jobType} />
+            <Detail label="Experience" value={job.experience} />
+            <Detail label="Salary" value={`${job.salary} LPA`} />
+            <Detail label="Skills" value={job.skills} />
+            <Detail label="Description" value={job.description} />
+
+            {/* Resume Upload */}
+            <div>
+              <h2 className="text-xl font-semibold mb-2">Upload Resume:</h2>
+              <input
+                onChange={(e) => setResume(e.target.files[0])}
+                type="file"
+                className="block w-full p-2 border border-black rounded-md bg-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-[#E0C163] file:text-black file:font-semibold hover:file:bg-black hover:file:text-[#E0C163] transition"
+              />
+            </div>
+
+            {/* Apply Button */}
+            <div className="flex justify-center pt-6">
+              <button
+                disabled={!resume}
+                className={`w-full py-3 rounded-lg text-lg font-semibold transition 
+              ${
+                !resume
+                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                  : "bg-black text-[#E0C163] hover:bg-[#E0C163] hover:text-black"
+              }`}
+              >
+                Apply Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* HURRY UP Section */}
+        <div className="border-5 border-[#E0c163] flex-1 bg-black text-[#E0C163] flex items-center justify-center text-center p-10 text-8xl font-semibold hover:bg-[#E0c163] hover:text-black hover:border-black tracking-wide">
+          HURRY UP!! <br /> GRAB THE OPPORTUNITY NOW!!
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };
+
+// Reusable Detail Component
+const Detail = ({ label, value }) => (
+  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+    <h2 className="font-semibold text-gray-700 min-w-[130px]">{label}:</h2>
+    <p className="text-gray-800 break-words">{value}</p>
+  </div>
+);
 
 export default ExpandedCard;

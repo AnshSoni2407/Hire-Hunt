@@ -19,6 +19,8 @@ const jobSchema = mongoose.Schema(
       required: true,
     },
     salary: {
+      min: 4,
+      max: 6,
       type: String,
       required: true,
     },

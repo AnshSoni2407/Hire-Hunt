@@ -3,20 +3,26 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { FaEdit } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
 import axios from "axios";
+import { MdArrowBack } from "react-icons/md";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import { IoCloseOutline } from "react-icons/io5";
 
 const Header = () => {
-
   const role = localStorage.getItem("role");
   const loggedInEmp = JSON.parse(localStorage.getItem("loggedInEmp"));
-  const userName = loggedInEmp.name
-  const profileLogo = loggedInEmp.name.charAt(0).toUpperCase()
-
+  const userName = loggedInEmp.name;
+  const userId = loggedInEmp.id;
+  const profileLogo = loggedInEmp.name.charAt(0).toUpperCase();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [contactUs, setcontactUs] = useState(false);
+  const [openEditForm, setopenEditForm] = useState(false);
+  const [updatedName, setupdatedName] = useState('')
+  const [updatedPhone, setupdatedPhone] = useState('');
+  const [updatedPassword, setupdatedPassword] = useState('');
+
   const dropdownRef = useRef(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
@@ -31,8 +37,7 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const HandleLogout = async ()=>{
-
+  const HandleLogout = async () => {
     try {
       await axios.post(
         "http://localhost:3000/auth/logout",
@@ -46,7 +51,22 @@ const Header = () => {
     } catch (error) {
       console.log(`Error logging out: ${error.message}`);
     }
-  }
+  };
+
+  // if user wants to edit his profile
+  const handleEditProfile = (e) => {
+    e.preventDefault();
+    const data = {
+      name: updatedName,
+      phone: updatedPhone,
+      password: updatedPassword
+    };
+    try {
+      axios.patch(`http://localhost:3000/auth/user/editProfile/${userId}`, data);
+    } catch (error) {
+      console.log(`Error updating profile: ${error.message}`);
+    }
+  };
 
   return (
     <div className=" relative top-0 p-2 w-full flex items-center justify-between bg-white shadow-md z-2">
@@ -71,7 +91,14 @@ const Header = () => {
         >
           Jobs
         </div>
-        <div className="hover:underline cursor-pointer">Contact Us</div>
+        <div
+          onClick={() => {
+            setcontactUs(true);
+          }}
+          className="hover:underline cursor-pointer"
+        >
+          Contact Us
+        </div>
 
         {role == "employer" ? (
           <div className="hover:underline cursor-pointer">Created Jobs </div>
@@ -103,7 +130,10 @@ const Header = () => {
         {menuOpen && (
           <div className="absolute right-0 mt-2 w-40 bg-white  rounded-lg shadow-md z-50 overflow-hidden ">
             <div className="px-4 py-2 m-auto font-extrabold text-center hover:bg-gray-100 cursor-pointer flex items-center justify-between"></div>
-            <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between">
+            <div
+              onClick={() => setopenEditForm(true)}
+              className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between"
+            >
               <p>Edit Profile</p> <FaEdit />
             </div>
             <div
@@ -112,6 +142,121 @@ const Header = () => {
             >
               Logout <IoLogOut className="inline" />
             </div>
+          </div>
+        )}
+
+        {contactUs && (
+          <div className="fixed inset-0 z-50 bg-white overflow-y-auto shadow-xl">
+            {/* Header */}
+            <div className="flex items-center justify-between bg-black text-[#E0C163] p-4 shadow-lg w-full">
+              <button
+                onClick={() => setcontactUs(false)}
+                className="text-2xl hover:text-black hover:bg-[#E0C163] p-2 rounded-full transition"
+              >
+                <MdArrowBack />
+              </button>
+              <h1 className="text-3xl font-semibold">Contact Us</h1>
+              <button
+                onClick={() => setcontactUs(false)}
+                className="text-2xl hover:text-black hover:bg-[#E0C163] p-2 rounded-full transition"
+              >
+                <IoCloseOutline />
+              </button>
+            </div>
+
+            {/* Split Section */}
+            <div className="flex flex-col md:flex-row h-[calc(100vh-72px)]">
+              {/* Left Half - Contact Info */}
+              <div className="w-full md:w-1/2 flex items-center justify-center p-10">
+                <div className="text-center space-y-6 text-gray-800">
+                  <div>
+                    <h2 className="text-2xl font-bold text-black mb-2">
+                      📧 Email
+                    </h2>
+                    <p className="text-lg">hirehunt@support.com</p>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-black mb-2">
+                      📞 Phone
+                    </h2>
+                    <p className="text-lg">+91 98765 43210</p>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-black mb-2">
+                      📍 Location
+                    </h2>
+                    <p className="text-lg">Dehradun, India</p>
+                  </div>
+                </div>
+              </div>
+              {/* right Half - Empty */}
+              <div className="border-5 border-[#E0c163] flex-1  bg-black text-[#E0C163] flex items-center justify-center text-center p-10 text-6xl font-semibold hover:bg-[#E0c163] hover:text-black hover:border-black tracking-wide">
+                CONTACT US !! <br /> WE ARE HERE TO HELP YOU 24 *7
+              </div>
+            </div>
+          </div>
+        )}
+        {openEditForm && (
+          <div className="fixed inset-0 z-50 bg-white overflow-y-auto shadow-xl">
+            {/* Header */}
+            <div className="flex items-center justify-between bg-black text-[#E0C163] p-4 shadow-lg w-full">
+              <button
+                onClick={() => setopenEditForm(false)}
+                className="text-2xl hover:text-black hover:bg-[#E0C163] p-2 rounded-full transition"
+              >
+                <MdArrowBack />
+              </button>
+              <h1 className="text-3xl font-semibold">Edit Profile</h1>
+              <button
+                onClick={() => setopenEditForm(false)}
+                className="text-2xl hover:text-black hover:bg-[#E0C163] p-2 rounded-full transition"
+              >
+                <IoCloseOutline />
+              </button>
+            </div>
+
+            <form
+              onSubmit={handleEditProfile}
+              className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md"
+            >
+              <div>
+                <h2>Name</h2>
+                <input
+                  type="text"
+                  value={updatedName}
+                  onChange={(e) => setupdatedName(e.target.value)}
+                  placeholder="Enter your name"
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+
+            
+
+                <h2>Phone</h2>
+                <input
+                  type="number"
+                  value={updatedPhone}
+                  onChange={(e) => setupdatedPhone(e.target.value)}
+                  placeholder="Enter your Phone Number"
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+
+                <h2>Password</h2>
+                <input
+                  type="password"
+                  placeholder="Enter your old password"
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+                <input
+                  type="password"
+                  value={updatedPassword}
+                  onChange={(e) => setupdatedPassword(e.target.value)}
+                  placeholder="New Password"
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+
+                <button type="submit">Submit</button>
+              </div>
+            </form>
           </div>
         )}
       </div>

@@ -102,3 +102,25 @@ export const login =  async (req, res) => {
       console.log(error.message, `error in logout api`);
     }
   };
+
+  export const editUserProfile = async (req, res)=>{
+const {name, phone, password} = req.body;
+const userId = req.params.userId;
+
+try {
+  console.log(req.body, `data in edit user profile api`);
+  console.log(userId, `user id in edit user profile api`);
+
+
+  const response = await userModel.findByIdAndUpdate(
+    userId,{
+      name, phone, password
+    }, {new: true},
+  )
+  res.status(200).json( {response, message: "User profile updated successfully"} );
+} catch (error) {
+  console.log(error.message, `error in edit user profile api`);
+  res.status(500).json({ message: "Internal server error in edit user profile" });
+}
+
+  }

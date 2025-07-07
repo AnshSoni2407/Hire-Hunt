@@ -14,28 +14,24 @@ export const create = async (req, res) => {
     postedBy,
   } = req.body;
 
-  console.log(req.body, "Received job creation data");
   try {
-    console.log(req.body, "Received job creation data");
 
-    // creating job
+
 
     const CreatedJob = await jobModel.create(req.body);
 
-    // register this job in user id, this user crerated this job
 
     await userModel.findByIdAndUpdate(
       postedBy,
       { $push: { CreatedJobs: CreatedJob._id } },
       { new: true }
     );
-    // populate the postedBy field with user details
 
     const populatedJob = await jobModel
       .findById(CreatedJob._id)
       .populate("postedBy");
 
-    console.log("Job created successfully:", populatedJob);
+    // console.log("Job created successfully:", populatedJob);
 
     res
       .status(201)
@@ -64,7 +60,6 @@ export const fetch = async (req, res) => {
 
 export const saveJob = async (req, res) => {
   const { job, userId } = req.params;
-  console.log(req.params, "Params in saved jobs");
 
   try {
     const user = await userModel.findById(userId);
@@ -72,7 +67,6 @@ export const saveJob = async (req, res) => {
       return res
         .status(404)
         .json({ success: true, user, message: "User not found" });
-      console.log("job saved data is here", res);
     }
 
     // Check if the job is already saved
@@ -89,7 +83,6 @@ export const saveJob = async (req, res) => {
     console.error("Error saving job:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-  console.log(req.params, "Params in saved jobs");
 };
 
 // to check all saved jobs of a user
@@ -99,9 +92,7 @@ export const fetchSaveJob = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    console.log(userId);
     const getSavedJobs = await userModel.findById(userId).populate("SavedJobs");
-    console.log(getSavedJobs, "Fetched saved jobs for user");
     res.status(200).json(getSavedJobs);
   } catch (error) {
     console.log(error.message, `error in fetching saved jobs`);
@@ -133,7 +124,6 @@ export const removeSavedJob = async (req, res) => {
       $pull: { SavedJobs: jobId },
       new: true,
     });
-    console.log(RestJobs, "Job removed from saved jobs");
     res.status(200).json({RestJobs, message: "Job removed from saved jobs successfully"});
   } catch (error) {
     console.error("Error removing job from saved jobs:", error);
