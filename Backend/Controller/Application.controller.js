@@ -1,5 +1,6 @@
 import ApplicationModel from "../Model/Applications.model.js"
 import cloudinary from "../Utils/Cloudinary.js";
+import streamifier from "streamifier";
 
 
 export const applyJob = async (req, res) => {
@@ -12,7 +13,7 @@ export const applyJob = async (req, res) => {
     }
 
     // Upload to Cloudinary
-    const result = await cloudinary.uploader.upload_stream(
+    const result =  cloudinary.uploader.upload_stream(
       { resource_type: "auto", folder: "resumes" },
       async (error, uploadResult) => {
         if (error) {
@@ -22,7 +23,7 @@ export const applyJob = async (req, res) => {
         // Save to DB
         const newApplication = new ApplicationModel({
           jobId,
-          jonSeekerId: jobSeekerId,
+          jobSeekerId: jobSeekerId,
           resumeUrl: uploadResult.secure_url,
         });
 
@@ -36,6 +37,7 @@ export const applyJob = async (req, res) => {
     // Pipe the file buffer to Cloudinary
     const stream = result;
     stream.end(file.buffer);
+    console.log('success')
   } catch (error) {
     console.error("Apply Job Error:", error.message);
     res.status(500).json({ message: "Internal Server Error" });

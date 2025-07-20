@@ -22,7 +22,9 @@
     "mongoose": "^8.15.1",
     "multer": "^2.0.1",
     "multer-cloud-storage": "^4.1.0",
+    "multer-storage-cloudinary": "^4.0.0",
     "nodemon": "^3.1.10",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "streamifier": "^0.1.1"
   }
 }
