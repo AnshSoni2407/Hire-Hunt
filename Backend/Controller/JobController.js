@@ -1,6 +1,7 @@
 import jobModel from "../Model/jobModel.js";
 import userModel from "../Model/user.model.js";
 
+
 export const create = async (req, res) => {
   const {
     jobTitle,
@@ -106,7 +107,7 @@ export const fetchCreatedJobs = async (req, res) => {
     const createdJobs = await userModel
       .findById(userId)
       .populate("CreatedJobs");
-    console.log(createdJobs, "Fetched created jobs for user");
+    console.log(createdJobs, "Fetched created jobs for user", userId);
     res.status(200).json({ createdJobs });
   } catch (error) {
     console.log(error.message, `error in fetching created jobs`);
@@ -130,3 +131,8 @@ export const removeSavedJob = async (req, res) => {
     res.status(500).json({ message: "Internal server error while removing jobs from saved jobs" });
   }
 };
+
+
+export const JobApply = (req, res)=>{
+ 
+}

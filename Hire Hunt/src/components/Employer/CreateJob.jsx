@@ -4,7 +4,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { IoMdArrowBack } from "react-icons/io";
 
 
-const CreateJob = ({ closeModal }) => {
+const CreateJob = () => {
   const [jobTitle, setjobTitle] = useState("");
   const [companyName, setcompanyName] = useState("");
   const [location, setlocation] = useState("");
@@ -51,26 +51,7 @@ console.log(userId);
         onSubmit={handleSubmit}
         className="relative bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl"
       >
-        {/* Close button */}
-        <div
-          onClick={closeModal}
-          className="absolute top-3 right-3 text-3xl font-extrabold cursor-pointer text-gray-700 hover:text-black"
-        >
-          <IoCloseOutline />
-        </div>
-
-        {/* back button */}
-        <div
-          onClick={closeModal}
-          className="absolute top-3 left-3 text-3xl font-extrabold cursor-pointer text-gray-700 hover:text-black"
-        >
-          <IoMdArrowBack />
-        </div>
-
-        {/* Heading */}
-        <h1 className="text-4xl font-bold mb-8 text-center text-[#E0C163]">
-          Create Job
-        </h1>
+     
 
         {/* Form Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -83,6 +83,7 @@ export const login =  async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          phone: user.phone,
           RegisterAs: user.RegisterAs,
         },
       });
@@ -105,19 +106,21 @@ export const login =  async (req, res) => {
 
   export const editUserProfile = async (req, res)=>{
 const {name, phone, password} = req.body;
+
 const userId = req.params.userId;
-
+if (!name || !phone || !password) {
+  return res.status(400).json({ message: "All fields are required" });
+}
 try {
-  console.log(req.body, `data in edit user profile api`);
-  console.log(userId, `user id in edit user profile api`);
-
-
-  const response = await userModel.findByIdAndUpdate(
+   const response = await userModel.findByIdAndUpdate(
     userId,{
       name, phone, password
     }, {new: true},
-  )
+  ) 
+  res.clearCookie("token");
+
   res.status(200).json( {response, message: "User profile updated successfully"} );
+
 } catch (error) {
   console.log(error.message, `error in edit user profile api`);
   res.status(500).json({ message: "Internal server error in edit user profile" });

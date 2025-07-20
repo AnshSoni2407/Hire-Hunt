@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import EmployeDashboard from './components/dashboard/EmployeDashboard';
 import JobSeekerDashboard from './components/dashboard/JobSeekerDashboard';
 import SavedJobs from './components/JobSeeker/SavedJobs';
+import CreatedJobTable from './components/Employer/CreatedJobTable';
 
 const App = () => {
   return (
@@ -15,7 +16,9 @@ const App = () => {
           <Route path="/sign-up" element={<Register />} />
           <Route path="/employerDash" element={<EmployeDashboard />} />
           <Route path="/jobseekerDash" element={<JobSeekerDashboard />} />
-          <Route path='/saveJobsPage' element={<SavedJobs/>} />
+          <Route path="/saveJobsPage" element={<SavedJobs />} />
+          <Route path="/createdJobsTable" element={<CreatedJobTable />} />
+          {/* Add more routes as needed */}
         </Routes>
       </BrowserRouter>
     </div>

@@ -13,27 +13,11 @@ const MidSection = () => {
     <div>
       <div className="relative text-center bg-black text-[#E0C163] font-semibold text-2xl p-4 mt-8">
         {" "}
-        Created Jobs
-        <button
-          className="absolute right-6 top-[50%] translate-y-[-50%] bg-green-500 rounded-lg cursor-pointer text-white p-1.5"
-          onClick={() => {
-            setcreateJobModal(true);
-          }}
-        >
-          Add new
-          <GoPlus className="inline" />
-        </button>{" "}
+        Create Jobs
+       
       </div>
-
-      {createJobModal ? (
-        <CreateJob
-          closeModal={() => {
-            setcreateJobModal(false);
-          }}
-        />
-      ) : (
-        <CreatedJobTable />
-      )}
+<CreateJob/>
+     
     </div>
   );
 };

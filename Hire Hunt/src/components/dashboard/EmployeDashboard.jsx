@@ -5,11 +5,14 @@ import MidSection from "../Employer/MidSection.jsx";
 
 const EmployeDashboard = () => {
   return (
-    <div className="flex flex-col bg-gray-100">
-    <Header />
-      <MidSection />
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <Header />
+      <main className="flex-1">
+        <MidSection />
+      </main>
       <Footer />
     </div>
+    
   );
 };
 

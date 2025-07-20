@@ -4,22 +4,27 @@ import { FaEdit } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
 import axios from "axios";
 import { MdArrowBack } from "react-icons/md";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
+import Footer from "./Footer";
 
 const Header = () => {
   const role = localStorage.getItem("role");
   const loggedInEmp = JSON.parse(localStorage.getItem("loggedInEmp"));
   const userName = loggedInEmp.name;
   const userId = loggedInEmp.id;
+  const userPhone = loggedInEmp.phone;
+  const password = loggedInEmp.password;
   const profileLogo = loggedInEmp.name.charAt(0).toUpperCase();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactUs, setcontactUs] = useState(false);
   const [openEditForm, setopenEditForm] = useState(false);
-  const [updatedName, setupdatedName] = useState('')
-  const [updatedPhone, setupdatedPhone] = useState('');
-  const [updatedPassword, setupdatedPassword] = useState('');
+  const [updatedName, setupdatedName] = useState(userName)
+  const [updatedPhone, setupdatedPhone] = useState(userPhone);
+  const [updatedPassword, setupdatedPassword] = useState(password);
+  const [showReloginModel, setshowReloginModel] = useState(false);
+
 
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -28,6 +33,7 @@ const Header = () => {
 
   // Close dropdown when clicking outside
   useEffect(() => {
+  
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setMenuOpen(false);
@@ -53,21 +59,33 @@ const Header = () => {
     }
   };
 
+
   // if user wants to edit his profile
-  const handleEditProfile = (e) => {
+  const handleEditProfile = async(e) => {
     e.preventDefault();
+
+
     const data = {
       name: updatedName,
       phone: updatedPhone,
       password: updatedPassword
     };
     try {
-      axios.patch(`http://localhost:3000/auth/user/editProfile/${userId}`, data);
+     const res = await  axios.patch(`http://localhost:3000/auth/user/editProfile/${userId}`, data);
+
+if (res.status == 200) {
+  console.log('successfully updated profile');
+  setshowReloginModel(true);
+  setopenEditForm(false);
+}
     } catch (error) {
       console.log(`Error updating profile: ${error.message}`);
     }
   };
-
+useEffect(() => {
+  document.body.style.overflow = openEditForm ? "hidden" : "auto";
+  return () => (document.body.style.overflow = "auto");
+}, [openEditForm]);
   return (
     <div className=" relative top-0 p-2 w-full flex items-center justify-between bg-white shadow-md z-2">
       {/* Logo */}
@@ -101,7 +119,9 @@ const Header = () => {
         </div>
 
         {role == "employer" ? (
-          <div className="hover:underline cursor-pointer">Created Jobs </div>
+          <Link to={"/createdJobsTable"}>
+            <div className="hover:underline cursor-pointer">Created Jobs </div>
+          </Link>
         ) : (
           <div
             onClick={() => navigate("/saveJobsPage")}
@@ -109,6 +129,12 @@ const Header = () => {
           >
             Saved Job
           </div>
+        )}
+
+        {role == "employer" ? (
+          <div className="hover:underline cursor-pointer">Applicants </div>
+        ) : (
+          <div className="hover:underline cursor-pointer">Applied Jobs </div>
         )}
       </div>
 
@@ -191,11 +217,12 @@ const Header = () => {
               </div>
               {/* right Half - Empty */}
               <div className="border-5 border-[#E0c163] flex-1  bg-black text-[#E0C163] flex items-center justify-center text-center p-10 text-6xl font-semibold hover:bg-[#E0c163] hover:text-black hover:border-black tracking-wide">
-                CONTACT US !! <br /> WE ARE HERE TO HELP YOU 24 *7
+                CONTACT US !! <br /> WE ARE HERE TO HELP YOU 24 * 7
               </div>
             </div>
           </div>
         )}
+
         {openEditForm && (
           <div className="fixed inset-0 z-50 bg-white overflow-y-auto shadow-xl">
             {/* Header */}
@@ -215,48 +242,84 @@ const Header = () => {
               </button>
             </div>
 
-            <form
-              onSubmit={handleEditProfile}
-              className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md"
-            >
-              <div>
-                <h2>Name</h2>
-                <input
-                  type="text"
-                  value={updatedName}
-                  onChange={(e) => setupdatedName(e.target.value)}
-                  placeholder="Enter your name"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
+            {/* Form Body */}
+            <div className="flex justify-center items-center min-h-[80%] p-4 bg-gray-50">
+              <form
+                onSubmit={handleEditProfile}
+                className="bg-white w-full max-w-2xl p-8 rounded-lg shadow-lg space-y-6"
+              >
+                <div>
+                  <label className="block text-gray-700 text-lg font-semibold mb-1">
+                    Name
+                  </label>
+                  <input
+                    required
+                    type="text"
+                    value={updatedName}
+                    onChange={(e) => setupdatedName(e.target.value)}
+                    placeholder="Enter your name"
+                    className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
+                  />
+                </div>
 
-            
+                <div>
+                  <label className="block text-gray-700 text-lg font-semibold mb-1">
+                    Phone
+                  </label>
+                  <input
+                    required
+                    type="number"
+                    value={updatedPhone}
+                    onChange={(e) => setupdatedPhone(e.target.value)}
+                    placeholder="Enter your Phone Number"
+                    className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
+                  />
+                </div>
 
-                <h2>Phone</h2>
-                <input
-                  type="number"
-                  value={updatedPhone}
-                  onChange={(e) => setupdatedPhone(e.target.value)}
-                  placeholder="Enter your Phone Number"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
+                <div>
+                  <label className="block text-gray-700 text-lg font-semibold mb-1">
+                    New Password
+                  </label>
+                  <input
+                    required
+                    type="password"
+                    value={updatedPassword}
+                    onChange={(e) => setupdatedPassword(e.target.value)}
+                    placeholder="Enter new password"
+                    className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
+                  />
+                </div>
 
-                <h2>Password</h2>
-                <input
-                  type="password"
-                  placeholder="Enter your old password"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                <input
-                  type="password"
-                  value={updatedPassword}
-                  onChange={(e) => setupdatedPassword(e.target.value)}
-                  placeholder="New Password"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
+                <button
+                  type="submit"
+                  className="w-full bg-black text-[#E0C163] font-semibold py-3 rounded hover:bg-[#E0C163] hover:text-black transition"
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
 
-                <button type="submit">Submit</button>
-              </div>
-            </form>
+            <Footer />
+          </div>
+        )}
+
+        {showReloginModel && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg text-center space-y-4 max-w-sm">
+              <h2 className="text-xl font-semibold text-gray-800">
+                Profile Updated Successfully
+              </h2>
+              <p className="text-gray-600">Please login again to continue.</p>
+              <button
+                onClick={() => {
+                  setshowReloginModel(false);
+                  navigate("/"); // go to login
+                }}
+                className="mt-2 bg-black text-[#E0C163] px-4 py-2 rounded hover:bg-[#E0C163] hover:text-black transition"
+              >
+                Login Again
+              </button>
+            </div>
           </div>
         )}
       </div>
