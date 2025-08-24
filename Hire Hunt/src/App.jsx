@@ -6,6 +6,8 @@ import EmployeDashboard from './components/dashboard/EmployeDashboard';
 import JobSeekerDashboard from './components/dashboard/JobSeekerDashboard';
 import SavedJobs from './components/JobSeeker/SavedJobs';
 import CreatedJobTable from './components/Employer/CreatedJobTable';
+import AppliedJobs from './components/JobSeeker/AppliedJobs';
+import Applicants from './components/Employer/Applicants';
 
 const App = () => {
   return (
@@ -18,6 +20,9 @@ const App = () => {
           <Route path="/jobseekerDash" element={<JobSeekerDashboard />} />
           <Route path="/saveJobsPage" element={<SavedJobs />} />
           <Route path="/createdJobsTable" element={<CreatedJobTable />} />
+          <Route path="/appliedJobs" element={<AppliedJobs />} />
+          <Route path="/applicants" element={<Applicants/>} />
+
           {/* Add more routes as needed */}
         </Routes>
       </BrowserRouter>

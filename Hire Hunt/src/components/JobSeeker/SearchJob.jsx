@@ -31,12 +31,7 @@ const SearchJob = ({ onSearch }) => {
           placeholder="Find jobs here... (MERN Stack, Delhi etc.)"
           className="flex-grow px-4 py-2 text-gray-700 focus:outline-none"
         />
-        <button
-          type="submit"
-          className="px-4 py-2 bg-[#E0C163] hover:bg-yellow-500 text-white transition-colors duration-200 mr-1 rounded-md"
-        >
-          <FaSearch />
-        </button>
+       
       </div>
     </div>
   );

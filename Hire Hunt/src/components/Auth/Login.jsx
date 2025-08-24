@@ -43,14 +43,16 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-purple-200">
+    <div className="flex items-center justify-center h-screen">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center text-center justify-center h-auto w-1/2 p-4 bg-white rounded-lg"
+        className="flex flex-col items-center text-center justify-center h-auto w-[90%] md:w-1/2 p-4 bg-white rounded-lg"
       >
         <h1 className="text-4xl font-bold mb-16">Login</h1>
 
-        <label htmlFor="registerAs" className="text-xl">
+        <label
+        
+         htmlFor="registerAs" className="text-xl">
           Register as
         </label>
         <div className="w-full flex items-center justify-center mb-8 rounded-md overflow-hidden">

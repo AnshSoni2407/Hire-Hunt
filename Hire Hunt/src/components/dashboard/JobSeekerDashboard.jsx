@@ -3,8 +3,7 @@
     import Header from "../Reusable.jsx/Header";
     import CardContainer from "../JobSeeker/CardContainer";
     import Footer from "../Reusable.jsx/Footer";
-    import SearchJob from "../JobSeeker/SearchJob";
-
+    import SearchJob from "../JobSeeker/SearchJob"; 
     const JobSeekerDashboard = () => {
 
       const [fetchedJobs, setfetchedJobs] = useState([])
@@ -41,6 +40,8 @@
         <div className="flex flex-col  min-h-screen bg-gray-100">
           <Header />
           <SearchJob onSearch={handleSearch} />
+        
+         
           <div className='flex-grow'>
             <CardContainer jobs={filterJobs} />
           </div>

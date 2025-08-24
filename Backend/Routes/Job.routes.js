@@ -6,6 +6,8 @@ import {
   fetchSaveJob,
   fetchCreatedJobs,
   removeSavedJob,
+  deleteJob,
+  updateJob,
 } from "../Controller/JobController.js";
 import { verifyToken } from "../Middlewares/Token.js";
 const router = express.Router();
@@ -22,4 +24,7 @@ router.get("/fetch/createdJobs/:userId", fetchCreatedJobs);
 
 router.delete("/removeSavedJob/:jobId/:userId", removeSavedJob);
 
+router.delete("/deleteJob/:jobId/:userId", deleteJob);
+
+router.put("/update/:jobId", updateJob);
 export default router;

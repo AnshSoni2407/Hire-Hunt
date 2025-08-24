@@ -11,13 +11,14 @@ const MidSection = () => {
   
   return (
     <div>
-      <div className="relative text-center bg-black text-[#E0C163] font-semibold text-2xl p-4 mt-8">
+      <div
+        id="created-jobs"
+        className="relative text-center bg-black text-[#E0C163] font-semibold text-2xl p-4 mt-8"
+      >
         {" "}
         Create Jobs
-       
       </div>
-<CreateJob/>
-     
+      <CreateJob />
     </div>
   );
 };

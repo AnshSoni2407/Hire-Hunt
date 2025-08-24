@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const ApplicationSchema = new mongoose.Schema(
@@ -7,24 +8,20 @@ const ApplicationSchema = new mongoose.Schema(
       ref: "Job",
       required: true,
     },
-
     jobSeekerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User", 
       required: true,
     },
-
     status: {
       type: String,
       enum: ["Applied", "Accepted", "Rejected"],
       default: "Applied",
     },
-
     appliedAt: {
       type: Date,
       default: Date.now,
     },
-
     resumeUrl: {
       type: String,
       required: true,
@@ -34,5 +31,4 @@ const ApplicationSchema = new mongoose.Schema(
 );
 
 const ApplicationModel = mongoose.model("Application", ApplicationSchema);
-
 export default ApplicationModel;

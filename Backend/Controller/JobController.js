@@ -133,6 +133,34 @@ export const removeSavedJob = async (req, res) => {
 };
 
 
-export const JobApply = (req, res)=>{
- 
+export const deleteJob =async (req, res)=>{
+  const {jobId, userId} = req.params
+  try {
+    // console.log(jobId, ' here it is', userId)
+
+  const deleteJob = await jobModel.findByIdAndDelete(jobId)
+
+  if(!deleteJob){
+    return res.status(400).json('job not found, delete not possible')
+  }
+  res.status(200).json({message:'job deleted successfully'}, deleteJob)
+
+  } catch (error) {
+    console.log('error delete')
+  }
+}
+
+export const updateJob = async (req, res) =>{
+  const {jobId} = req.params
+try {
+  console.log(req.body, 'here is the body')
+
+ const updateJob = await jobModel.findByIdAndUpdate(jobId, req.body, {new:true}) 
+res.status(200).json({message: 'Job updated successfully', updateJob})
+
+} catch (error) {
+  console.log('error in updating job', error.message)
+  res.status(500).json({message: 'Internal server error while updating job'})
+}
+
 }

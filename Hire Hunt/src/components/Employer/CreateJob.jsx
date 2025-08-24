@@ -39,7 +39,16 @@ console.log(userId);
     try {
       const res = await axios.post("http://localhost:3000/job/create", data, {withCredentials: true });
       console.log("Job created successfully", res.data);
-      closeModal(); // Close the modal on success
+
+      setjobTitle("");
+      setcompanyName("");
+      setlocation("");
+      setjobType("");
+      setsalary("");
+      setexperience("");
+      setdescription("");
+      setskills("");
+
     } catch (error) {
       console.error("Error creating job:", error.message);
     }
@@ -51,8 +60,6 @@ console.log(userId);
         onSubmit={handleSubmit}
         className="relative bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl"
       >
-     
-
         {/* Form Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Job Title */}
@@ -130,7 +137,7 @@ console.log(userId);
             </label>
             <input
               id="salary"
-              type="text"
+              type="number"
               value={salary}
               onChange={(e) => setsalary(e.target.value)}
               className="w-full p-2 border rounded"

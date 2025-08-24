@@ -4,7 +4,7 @@ dotenv.config()
 
 const connectDB = ()=>{
     try {
-        mongoose.connect(process.env.MONGO_COMPAS)
+        mongoose.connect(process.env.MONGO_ATLAS);
         console.log(`DB connected succesfull`);
         
     } catch (error) {

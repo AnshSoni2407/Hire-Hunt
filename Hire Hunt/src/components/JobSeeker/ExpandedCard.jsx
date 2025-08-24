@@ -7,7 +7,8 @@ import axios from "axios";
 const ExpandedCard = ({ closeExpand, job }) => {
   const [resume, setResume] = useState(null);
 
-  const userId = JSON.parse(localStorage.getItem("loggedInEmp"));
+  const userId = JSON.parse(localStorage.getItem("loggedInEmp")).id;
+  const jobId = job._id;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -18,22 +19,27 @@ const ExpandedCard = ({ closeExpand, job }) => {
 
   const handleApply = async () => {
     const formData = new FormData();
-    formData.append("jobId", job._id);
-    formData.append("jobSeekerId", userId.id);
     formData.append("resume", resume);
-
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/application/apply",
-        formData
+        `http://localhost:3000/application/apply/${jobId}/${userId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+      console.log("Application submitted:", res.data);
     } catch (error) {
       console.log("error in apply job", error.message);
     }
+    finally{
+      setResume(null);
+      alert("Application submitted successfully!");
+      closeExpand();}
+
   };
 
   return (
@@ -46,7 +52,7 @@ const ExpandedCard = ({ closeExpand, job }) => {
         >
           <IoArrowBack />
         </button>
-        <h1 className="text-4xl text-[#c8ac5a]">Job Details</h1>
+        <h1 className="text-2xl md:text-4xl text-[#c8ac5a]">Job Details</h1>
         <button
           onClick={closeExpand}
           className="text-[#c8ac5a] text-2xl p-1 rounded-full hover:bg-[#E0C163] hover:text-black duration-300"
@@ -56,10 +62,10 @@ const ExpandedCard = ({ closeExpand, job }) => {
       </div>
 
       {/* Main Content */}
-      <section className="flex flex-col md:flex-row min-h-[calc(100vh-140px)]">
+      <section className="flex flex-col lg:flex-row min-h-[calc(100vh-140px)]">
         {/* Job Details Section */}
-        <div className="flex-1 bg-gray-100 p-6 flex items-center justify-center">
-          <div className="w-full max-w-xl space-y-6 text-lg">
+        <div className="flex-1 bg-gray-100 p-4 md:p-6 flex items-center justify-center">
+          <div className="w-full max-w-xl space-y-4 md:space-y-6 text-base md:text-lg">
             <Detail label="Job Title" value={job.jobTitle} />
             <Detail label="Company Name" value={job.companyName} />
             <Detail label="Location" value={job.location} />
@@ -71,7 +77,9 @@ const ExpandedCard = ({ closeExpand, job }) => {
 
             {/* Resume Upload */}
             <div>
-              <h2 className="text-xl font-semibold mb-2">Upload Resume:</h2>
+              <h2 className="text-lg md:text-xl font-semibold mb-2">
+                Upload Resume:
+              </h2>
               <input
                 onChange={(e) => setResume(e.target.files[0])}
                 type="file"
@@ -80,16 +88,15 @@ const ExpandedCard = ({ closeExpand, job }) => {
             </div>
 
             {/* Apply Button */}
-
             {!resume ? (
-              <div className="flex justify-center p-4 rounded-lg relative group w-full  bg-gray-300 text-gray-600 cursor-not-allowed">
+              <div className="flex justify-center p-4 rounded-lg bg-gray-300 text-gray-600 cursor-not-allowed">
                 Upload your Resume to apply
               </div>
             ) : (
               <button
                 onClick={handleApply}
                 disabled={!resume}
-                className="flex justify-center p-4 rounded-lg relative group w-full bg-black text-[#E0C163] hover:bg-[#E0C163] hover:text-black"
+                className="flex justify-center p-4 rounded-lg w-full bg-black text-[#E0C163] hover:bg-[#E0C163] hover:text-black"
               >
                 Apply Now
               </button>
@@ -97,9 +104,11 @@ const ExpandedCard = ({ closeExpand, job }) => {
           </div>
         </div>
 
-        {/* HURRY UP Section */}
-        <div className="border-5 border-[#E0c163] flex-1 bg-black text-[#E0C163] flex items-center justify-center text-center p-10 text-8xl font-semibold hover:bg-[#E0c163] hover:text-black hover:border-black tracking-wide">
-          HURRY UP!! <br /> GRAB THE OPPORTUNITY NOW!!
+        {/* HURRY UP Section - only on large screens */}
+        <div className="hidden lg:flex flex-1 bg-black text-[#E0C163] items-center justify-center text-center p-6 lg:p-10 text-3xl lg:text-6xl xl:text-8xl font-semibold hover:bg-[#E0c163] hover:text-black hover:border-black tracking-wide">
+          HURRY UP!!
+          <br />
+          GRAB THE OPPORTUNITY NOW!!
         </div>
       </section>
 
@@ -110,7 +119,7 @@ const ExpandedCard = ({ closeExpand, job }) => {
 
 // Reusable Detail Component
 const Detail = ({ label, value }) => (
-  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+  <div className="flex flex-col sm:flex-row sm:items-center gap-1">
     <h2 className="font-semibold text-gray-700 min-w-[130px]">{label}:</h2>
     <p className="text-gray-800 break-words">{value}</p>
   </div>

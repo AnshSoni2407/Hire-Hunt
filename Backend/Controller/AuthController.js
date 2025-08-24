@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import userModel from "../Model/user.model.js";
+import bcrypt from 'bcrypt'
 dotenv.config();
 
 export const signUp =  async (req, res) => {
@@ -20,6 +21,10 @@ export const signUp =  async (req, res) => {
 
   try {
     const userExist = await userModel.findOne({ email });
+
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+    req.body.password = hashedPassword;
 
     if (userExist) {
       console.log(`user already exist`);
@@ -53,7 +58,9 @@ export const login =  async (req, res) => {
         return res.status(404).json({ message: "user does'nt exist" });
       }
   
-      if (user.password != password) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordValid) {
         return res.status(401).json({ message: "invalid credential" });
       }
   
@@ -105,16 +112,16 @@ export const login =  async (req, res) => {
   };
 
   export const editUserProfile = async (req, res)=>{
-const {name, phone, password} = req.body;
+const {name, phone} = req.body;
 
 const userId = req.params.userId;
-if (!name || !phone || !password) {
+if (!name || !phone ) {
   return res.status(400).json({ message: "All fields are required" });
 }
 try {
    const response = await userModel.findByIdAndUpdate(
     userId,{
-      name, phone, password
+      name, phone
     }, {new: true},
   ) 
   res.clearCookie("token");
@@ -127,3 +134,38 @@ try {
 }
 
   }
+
+  export const editUserPassword =async (req,res)=>{
+ const userId = req.params.userId
+  const { oldPassword, newPassword } = req.body;
+
+  if (!oldPassword || !newPassword) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const user = await userModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isOldPasswordValid = await bcrypt.compare(oldPassword, user.password)
+   
+    if (!isOldPasswordValid){
+      return res.status(401).json({message: 'old password is incorrect'})
+    }
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    const updatedUser = await userModel.findByIdAndUpdate(userId,{password : hashedNewPassword}, {new:true})
+   
+    res.clearCookie("token");
+
+    res.status(200).json({ message: "Password updated successfully", user: updatedUser });
+    console.log('successfully updated password');
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error in edit user password" });
+    console.log(error.message, `error in edit user password api`);
+  }
+
+  console.log(userId, "userId in editUserPassword", "query params");
+}

@@ -205,7 +205,7 @@ const JobCards = ({ jobs }) => {
       {jobs.map((job) => (
         <div
           key={job._id}
-          className="w-80 bg-[#fff4d4] rounded-2xl p-3 m-3 flex flex-col justify-between hover:scale-105 duration-300 hover:bg-[#ffefb9] shadow-md shadow-[#E0C163]"
+          className="w-65 lg:w-72 bg-[#fff4d4] rounded-2xl p-3 m-3 flex flex-col justify-between hover:scale-105 duration-300 hover:bg-[#ffefb9] shadow-md shadow-[#E0C163]"
         >
           {/* Title */}
           <h2 className="font-bold text-2xl text-center truncate mb-1">
@@ -251,10 +251,10 @@ const JobCards = ({ jobs }) => {
 
             <button
               onClick={() => handleToggleSave(job._id)}
-              className={`w-[15%] flex items-center justify-center rounded-lg p-2 text-2xl duration-300 ${
+              className={`w-[18%] flex items-center justify-center rounded-lg p-2 text-2xl duration-300 ${
                 isJobSaved(job._id)
                   ? "bg-green-600 text-white hover:bg-green-700"
-                  : "bg-black text-[#E0C163] hover:bg-[#E0C163] hover:text-black"
+                  : "bg-black text-[#E0C163]  hover:bg-[#E0C163] hover:text-black"
               }`}
             >
               {isJobSaved(job._id) ? (

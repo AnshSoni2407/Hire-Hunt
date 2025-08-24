@@ -1,9 +1,17 @@
 import express, { Router } from 'express'
-import { applyJob } from "../Controller/Application.controller.js";
+import {
+  applyJob,
+  fetchAppliedJobs,
+  fetchApplicants,
+} from "../Controller/Application.controller.js";
 import upload from '../Middlewares/Multer.js';
 
 const router = express.Router();
 
-router.post("/apply", upload.single("resume"), applyJob);
+router.post("/apply/:jobId/:userId", upload.single("resume"), applyJob);
+
+router.get("/fetch/:userId", fetchAppliedJobs);
+
+router.get('/fetch/applicants/:userId', fetchApplicants)
 
 export default router

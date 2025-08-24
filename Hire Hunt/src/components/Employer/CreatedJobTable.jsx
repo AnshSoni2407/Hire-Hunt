@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
 import { IoCloseOutline } from "react-icons/io5";
 import { IoMdArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const CreatedJobTable = () => {
   const [createdJobsByEmp, setcreatedJobsByEmp] = useState([]);
+  const [refershFlag, setrefershFlag] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editFormData, setEditFormData] = useState(null);
+
+  const userId = JSON.parse(localStorage.getItem("loggedInEmp")).id;
 
   const createdJobs = async () => {
-    const userId = JSON.parse(localStorage.getItem("loggedInEmp")).id;
-    console.log(userId);
-
     try {
       const res = await axios.get(
         `http://localhost:3000/job/fetch/createdJobs/${userId}`,
@@ -20,107 +21,301 @@ const CreatedJobTable = () => {
         }
       );
       setcreatedJobsByEmp(res.data.createdJobs.CreatedJobs);
-
-      console.log(createdJobsByEmp, "Created jobs by emp");
     } catch (error) {
       console.error("Error fetching created jobs:", error.message);
-    }
+    } 
   };
 
   useEffect(() => {
     createdJobs();
-  }, []);
+  }, [refershFlag]);
+
+  const handleDelete = async (jobId) => {
+    try {
+      await axios.delete(
+        `http://localhost:3000/job/deleteJob/${jobId}/${userId}`
+      );
+      setrefershFlag((prev) => !prev);
+    } catch (error) {
+      console.log("error in job deleting", error.message);
+    }
+  };
+
+  const handleEdit = (job) => {
+    setEditFormData(job);
+    setShowEditModal(true);
+  };
+
+  const handleChange = (e) => {
+    setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = async () => {
+    const jobId = editFormData._id
+    try {
+      await axios.put(
+        `http://localhost:3000/job/update/${jobId}`,
+        editFormData
+      );
+      setShowEditModal(false);
+      setrefershFlag((prev) => !prev);
+    } catch (error) {
+      console.log("Update error:", error.message);
+    }
+  };
 
   return (
     <div>
-      <div>
+      <div className="flex items-center justify-between bg-black text-[#E0C163] p-2 shadow-lg w-full mb-6">
         <Link to={"/employerDash"}>
-          <div className="absolute top-3 right-3 text-3xl font-extrabold cursor-pointer text-gray-700 hover:text-black">
-            <IoCloseOutline />
-          </div>
-        </Link>
-
-        {/* back button */}
-
-        <Link to={"/employerDash"}>
-          <div className="absolute top-3 left-3 text-3xl font-extrabold cursor-pointer text-gray-700 hover:text-black">
+          <button className="text-2xl hover:text-black hover:bg-[#E0C163] p-2 rounded-full transition">
             <IoMdArrowBack />
-          </div>
+          </button>
         </Link>
+        <h1 className="text-3xl font-semibold">Created Job</h1>
 
-        {/* Heading */}
-        <h1 className="text-4xl font-bold mb-8 text-center text-[#E0C163] bg-black p-4">
-          Create Job
-        </h1>
+        <Link to={"/employerDash"}>
+          <button className="text-2xl hover:text-black hover:bg-[#E0C163] p-2 rounded-full transition">
+            <IoCloseOutline />
+          </button>
+        </Link>
+      </div>
 
-        {createdJobsByEmp.length == 0 ? (
-          <div>NO CREATED JOBS</div>
-        ) : (
-          <table className="w-full bg-white shadow-md  rounded-lg overflow-hidden mt-8 mb-8">
+      {createdJobsByEmp.length === 0 ? (
+        <div>NO CREATED JOBS</div>
+      ) : (
+        <div className="w-full overflow-x-auto mt-8 mb-8">
+          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
-                <th className="py-3 w-1/7  text-center">Job Title</th>
-                <th className="py-3 w-1/7 text-center">Company Name</th>
-                <th className="py-3 w-1/7 text-center">Location</th>
-                <th className="py-3 w-1/7 text-center">Job Type</th>
-                <th className="py-3 w-2/7 text-center">Description</th>
-                <th className="py-3 w-1/7 text-center">Actions</th>
+                <th className="py-3 px-4 text-center">Job Title</th>
+                <th className="py-3 px-4 text-center">Company Name</th>
+                <th className="py-3 px-4 text-center">Location</th>
+                <th className="py-3 px-4 text-center">Job Type</th>
+                <th className="py-3 px-4 text-center">Description</th>
+                <th className="py-3 px-4 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {/* Example row, replace with dynamic data */}
-              <tr className="text-gray-700">
-                <td className="py-3 w-1/7 text-center">Software Engineer</td>
-                <td className="py-3 w-1/7 text-center">Tech Company</td>
-                <td className="py-3 w-1/7 text-center">Remote</td>
-                <td className="py-3 w-1/7 text-center">Full-time</td>
-                <td className="py-3 w-2/7 text-center">
-                  We are looking for a Software Engineer solutions.
-                </td>
-                <td className="py-3 w-1/7 text-center">
-                  <button className="text-blue-500 hover:underline">
-                    Edit
-                  </button>
-                  <button className="text-red-500 hover:underline ml-4">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-              {createdJobsByEmp.map((job, index) => {
-                return (
-                  <tr key={index} className="text-gray-700">
-                    <td className="py-3 px-4 text-center truncate max-w-[200px] overflow-hidden whitespace-nowrap">
-                      {job.jobTitle}
-                    </td>
-                    <td className="py-3 px-4 text-center truncate max-w-[200px] overflow-hidden whitespace-nowrap">
-                      {job.companyName}
-                    </td>
-                    <td className="py-3 px-4 text-center truncate max-w-[200px] overflow-hidden whitespace-nowrap">
-                      {job.location}
-                    </td>
-                    <td className="py-3 px-4 text-center truncate max-w-[200px] overflow-hidden whitespace-nowrap">
-                      {job.jobType}
-                    </td>
-                    <td className="py-3 px-4 text-center truncate max-w-[200px] overflow-hidden whitespace-nowrap">
-                      {job.description}
-                    </td>
-                    <td className="py-3 px-4 text-center truncate max-w-[200px] overflow-hidden whitespace-nowrap">
-                      <button className="text-blue-500 hover:underline">
-                        Edit
-                      </button>
-                      <button className="text-red-500 hover:underline ml-4">
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+              {createdJobsByEmp.map((job, index) => (
+                <tr
+                  key={index}
+                  className="text-gray-700 border hover:bg-gray-100"
+                >
+                  <td className="py-3 px-4 text-center truncate">
+                    {job.jobTitle}
+                  </td>
+                  <td className="py-3 px-4 text-center truncate">
+                    {job.companyName}
+                  </td>
+                  <td className="py-3 px-4 text-center truncate">
+                    {job.location}
+                  </td>
+                  <td className="py-3 px-4 text-center truncate">
+                    {job.jobType}
+                  </td>
+                  <td className="py-3 px-4 text-center max-w-xs truncate">
+                    {job.description}
+                  </td>
+                  <td className="py-3 px-4 text-center whitespace-nowrap">
+                    <button
+                      onClick={() => handleEdit(job)}
+                      className="text-blue-500 hover:underline"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(job._id)}
+                      className="text-red-500 hover:underline ml-4"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* MODAL */}
+      {showEditModal && editFormData && (
+        <div className="fixed top-0 flex justify-center items-center bg-gray-200 p-4 w-full h-full ">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleUpdate();
+            }}
+            className="relative bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl"
+          >
+            <div className="relative mb-18 bg-black text-[#E0C163] rounded-lg">
+              <div
+                onClick={() => setShowEditModal(false)}
+                className="absolute top-0 left-3 text-3xl font-extrabold cursor-pointer text-black hover:bg-[#E0C163] hover:text-black p-1 rounded-full duration-300"
+              >
+                <IoMdArrowBack />
+              </div>
+              <div
+                onClick={() => setShowEditModal(false)}
+                className="absolute top-0 right-3 text-3xl font-extrabold cursor-pointer  text-black hover:bg-[#E0C163] hover:text-black p-1 rounded-full duration-300"
+              >
+                <IoCloseOutline />
+              </div>
+            </div>
+
+            {/* Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Job Title */}
+              <div>
+                <label htmlFor="jobTitle" className="block font-semibold mb-1">
+                  Job Title
+                </label>
+                <input
+                  name="jobTitle"
+                  type="text"
+                  value={editFormData.jobTitle}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  placeholder="Frontend Developer"
+                  required
+                />
+              </div>
+
+              {/* Company Name */}
+              <div>
+                <label
+                  htmlFor="companyName"
+                  className="block font-semibold mb-1"
+                >
+                  Company Name
+                </label>
+                <input
+                  name="companyName"
+                  type="text"
+                  value={editFormData.companyName}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  placeholder="TechCorp Inc."
+                  required
+                />
+              </div>
+
+              {/* Location */}
+              <div>
+                <label htmlFor="location" className="block font-semibold mb-1">
+                  Location
+                </label>
+                <input
+                  name="location"
+                  type="text"
+                  value={editFormData.location}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  placeholder="Dehradun"
+                  required
+                />
+              </div>
+
+              {/* Job Type */}
+              <div>
+                <label htmlFor="jobType" className="block font-semibold mb-1">
+                  Job Type
+                </label>
+                <select
+                  name="jobType"
+                  value={editFormData.jobType}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="Full-Time">Full-Time</option>
+                  <option value="Part-Time">Part-Time</option>
+                  <option value="Internship">Internship</option>
+                  <option value="Remote">Remote</option>
+                </select>
+              </div>
+
+              {/* Salary */}
+              <div>
+                <label htmlFor="salary" className="block font-semibold mb-1">
+                  Salary in Lakh Per Annum (LPA)
+                </label>
+                <input
+                  name="salary"
+                  type="text"
+                  value={editFormData.salary}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  placeholder="20, 40, 60 LPA "
+                  required
+                />
+              </div>
+
+              {/* Experience */}
+              <div>
+                <label
+                  htmlFor="experience"
+                  className="block font-semibold mb-1"
+                >
+                  Experience
+                </label>
+                <input
+                  name="experience"
+                  type="text"
+                  value={editFormData.experience}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded"
+                  placeholder="1-2 years"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Skills */}
+            <div className="mt-6">
+              <label htmlFor="skills" className="block font-semibold mb-1">
+                Skills Required
+              </label>
+              <textarea
+                name="skills"
+                value={editFormData.skills}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+                placeholder="React, Node.js, MongoDB, etc."
+                rows={3}
+                required
+              ></textarea>
+            </div>
+
+            {/* Description */}
+            <div className="mt-6">
+              <label htmlFor="description" className="block font-semibold mb-1">
+                Job Description
+              </label>
+              <textarea
+                name="description"
+                value={editFormData.description}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+                placeholder="Write about responsibilities, requirements, perks, etc."
+                rows={4}
+                required
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full mt-8 bg-black text-[#E0C163] font-semibold py-2 rounded hover:bg-[#333] transition duration-300"
+            >
+              Update Job
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
 
 export default CreatedJobTable;
+
