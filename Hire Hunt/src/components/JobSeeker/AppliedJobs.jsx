@@ -1,126 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import { HiBuildingOffice2 } from "react-icons/hi2";
-// import {
-//   IoLocation,
-//   IoPeopleSharp,
-//   IoArrowBack,
-//   IoClose,
-// } from "react-icons/io5";
-// import { GiModernCity, GiTakeMyMoney } from "react-icons/gi";
-// import { Link } from "react-router-dom";
-// import { MdDeleteForever } from "react-icons/md";
-// import ExpandedCard from "./ExpandedCard.jsx";
-// import Footer from "../Reusable.jsx/Footer.jsx";
-// import axios from "axios";
-
-// const AppliedJobs = () => {
-//   const [appliedJobs, setappliedJobs] = useState([])
-
-// const userId = JSON.parse(localStorage.getItem("loggedInEmp")).id;
-
-//   const fetchAppliedJobs = async ()=>{
-
-//     try {
-//       const job = await axios.get(`http://localhost:3000/application/fetch/${userId}`)
-//       console.log(userId)
-//       console.log(job.data)
-//       setappliedJobs(job.data.jobs);
-//       console.log(appliedJobs)
-//     } catch (error) {
-//       console.log(`error in fetching Applied jobs ${error.message}`)
-//     }
-//   }
-
-// useEffect(() => {
-//   fetchAppliedJobs()
-// }, [])
-
-
-//   return (
-//     <div className="min-h-screen flex flex-col">
-//       <div className="flex justify-between items-center p-4 shadow-lg bg-black">
-//         <Link to={"/jobseekerDash"}>
-//           <button className="text-[#c8ac5a] text-2xl p-1 rounded-full hover:bg-[#E0C163] hover:text-black duration-300">
-//             <IoArrowBack />
-//           </button>
-//         </Link>
-//         <h2 className="text-4xl text-[#c8ac5a]">APPLIED JOBS</h2>
-//         <Link to={"/jobseekerDash"}>
-//           <button className="text-[#c8ac5a] text-2xl p-1 rounded-full hover:bg-[#E0C163] hover:text-black duration-300">
-//             <IoClose />
-//           </button>
-//         </Link>
-//       </div>
-
-//       {/* Content */}
-
-//       {appliedJobs.length === 0 ? (
-//         <div className="flex-grow text-3xl text-center mt-16">No applied jobs found</div>
-//       ) : (
-//         <div className="flex-grow mt-6">
-//           <table className="w-full text-xl text-center ">
-//             <thead>
-//               <tr className="text-xl sm:text-2xl ">
-//                 <th className="w-1/7">Job Title</th>
-//                 <th className="w-1/7">Location</th>
-//                 <th className="w-1/7">Work Mode</th>
-//                 <th className="w-1/7">Contact Details</th>
-//                 <th className="w-1/7">Status</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {appliedJobs.map((job) => (
-//                 <tr key={job._id} className="border-b hover:bg-gray-100">
-//                   <td className="p-4">
-//                     <div className="flex items-center justify-center">
-//                       <h3 className="text-lg font-semibold">
-//                         {job.jobId.jobTitle}
-//                       </h3>
-//                     </div>
-//                   </td>
-//                   <td className="p-4">
-//                     <div className="flex items-center justify-center">
-//                       <IoLocation className="text-2xl text-gray-500 mr-2" />
-//                       <span>{job.jobId.location}</span>
-//                     </div>
-//                   </td>
-//                   <td className="p-4">
-//                     <div className="flex items-center justify-center">
-//                       <HiBuildingOffice2 className="text-2xl text-gray-500 mr-2" />
-//                       <span>{job.jobId.jobType}</span>
-//                     </div>
-//                   </td>
-//                   <td className="p-4">
-//                     <div className="flex items-center justify-center">
-//                       <IoPeopleSharp className="text-2xl text-gray-500 mr-2" />
-//                       <span>{job.jobId.postedBy.phone}</span>
-//                     </div>
-//                   </td>
-//                   <td className="p-4">
-//                     <div
-//                       onClick={() => console.log("Status Clicked")}
-//                       className="bg-[#c8ac5a] text-black font-semibold hover:text-white px-4 py-2 rounded hover:bg-black
-//                      transition duration-300 mx-auto "
-//                     >
-//                       Applied
-//                     </div>
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       )}
-
-//       {/* Footer */}
-//       <Footer className="mt-auto" />
-//     </div>
-//   );
-// };
-
-// export default AppliedJobs;
-
-
 import React, { useState, useEffect } from "react";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import {
@@ -152,7 +29,7 @@ const AppliedJobs = () => {
   useEffect(() => {
     fetchAppliedJobs();
   }, []);
-
+ 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -191,7 +68,8 @@ const AppliedJobs = () => {
               </thead>
               <tbody>
                 {appliedJobs.map((job) => (
-                  <tr
+                  job?.jobId ? (
+                     <tr
                     key={job._id}
                     className="border-b hover:bg-gray-100 transition"
                   >
@@ -227,6 +105,7 @@ const AppliedJobs = () => {
                       </div>
                     </td>
                   </tr>
+                  ) : null
                 ))}
               </tbody>
             </table>

@@ -11,7 +11,6 @@ export const applyJob = async (req, res) => {
     });
 
     await application.save();
-    console.log("success");
     res.status(201).json({
       success: true,
       message: "Job applied successfully",
@@ -27,7 +26,6 @@ export const applyJob = async (req, res) => {
 
 export const fetchAppliedJobs = async (req, res) => {
   const { userId } = req.params;
-  console.log("User ID from params:", userId); // Debug line
 
   try {
     const appliedJobs = await ApplicationModel.find({
@@ -41,7 +39,6 @@ export const fetchAppliedJobs = async (req, res) => {
       },
     });
 
-    console.log("Fetched Jobs:", appliedJobs);
 
     res.status(200).json({
       message: "Fetched applied jobs successfully",
@@ -57,30 +54,28 @@ export const fetchAppliedJobs = async (req, res) => {
 };
 
 
-export const fetchApplicants = (req, res) => {
-
-  const {userId} = req.params.userId;
+export const fetchApplicants = async (req, res) => {
+  const { userId } = req.params;
 
   try {
-    const applicants = ApplicationModel.find().populate({
-      path: "jobId",
-      populate: {
-        path: "postedBy",
-        model: "User",
-        select: 'phone',
-      },
-    });
-    console.log(applicants);
-    res.status(200).json({
-      success: true,
-      message: "Applicants fetched successfully",
-      applicants: applicants
-    });
+    const applicants = await ApplicationModel.find()
+      .populate({
+        path: "jobId",
+        match: { postedBy: userId },
+        populate: {
+          path: "postedBy",
+          model: "User",
+          select: "phone email",
+        },
+      })
+      .populate("jobSeekerId", "name email phone");
+
+    // filter out null jobs (dusre employers ki)
+    const filtered = applicants.filter((app) => app.jobId !== null);
+
+    res.status(200).json({ success: true, applicants: filtered });
   } catch (error) {
     console.error("Fetch Applicants Error:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch applicants"
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
-}
+};

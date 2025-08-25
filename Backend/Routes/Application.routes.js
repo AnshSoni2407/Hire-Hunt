@@ -2,7 +2,7 @@ import express, { Router } from 'express'
 import {
   applyJob,
   fetchAppliedJobs,
-  fetchApplicants,
+  fetchApplicants
 } from "../Controller/Application.controller.js";
 import upload from '../Middlewares/Multer.js';
 

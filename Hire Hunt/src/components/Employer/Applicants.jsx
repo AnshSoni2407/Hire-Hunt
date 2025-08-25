@@ -16,8 +16,8 @@ const Applicants = () => {
 
 
     const res = await axios.get(`http://localhost:3000/application/fetch/applicants/${userId}`)
-    console.log(res.data)
-    setapplicants(res.data)
+    console.log( res.data.applicants);
+    setapplicants(res.data.applicants)
   }
 
   useEffect(() => {
@@ -45,28 +45,43 @@ const Applicants = () => {
       </div>
 
       {/*  card */}
+      <div className="flex flex-wrap justify-center">
+        {applicants.map((applicant, index) => {
+          return (
+            <div
+              key={index}
+              className="w-65 lg:w-72 p-4 m-5 bg-[#fff4d4] rounded-2xl flex flex-col hover:scale-102 duration-300 hover:bg-[#ffefb9] shadow-md shadow-[#E0C163]"
+            >
+              <h2 className="font-bold text-2xl  truncate mb-1">
+                {applicant.jobSeekerId.name}
+              </h2>
 
-      <div className="w-65 lg:w-72 p-4 m-5 bg-[#fff4d4] rounded-2xl flex flex-col hover:scale-102 duration-300 hover:bg-[#ffefb9] shadow-md shadow-[#E0C163]">
-        <h2 className="font-bold text-2xl  truncate mb-1">Arpit Verma</h2>
+              <h3 className="font-medium text-xl text-gray-600 truncate mb-2 text">
+                {applicant.jobId.jobTitle}
+              </h3>
 
-        <h3 className="font-medium text-xl text-gray-600 truncate mb-2 text">
-          iOS Developer
-        </h3>
+              <div className="flex items-center  tracking-widest justify-center">
+                <IoCall /> <p> : {applicant.jobSeekerId.phone}</p>
+              </div>
 
-        <div className="flex items-center  tracking-widest justify-center">
-          <IoCall /> <p> : 6398985940</p>
-        </div>
-
-        <div className="flex items-center justify-evenly">
-          <button className="w-[30%] border  rounded-lg p-1.5 bg-black text-[#E0C163] font-semibold text-sm hover:bg-[#E0C163] hover:text-black duration-300">
-            Resume
-          </button>
-          <select className="w-[55%]  border border-black rounded-lg p-1.5 bg-black text-[#E0C163] font-semibold text-sm hover:bg-[#E0C163] hover:text-black duration-300">
-            <option value={"Pending"}>Pending</option>
-            <option value={"Accepted"}>Accepted</option>
-            <option value={"Rejected"}>Rejected</option>
-          </select>
-        </div>
+              <div className="flex items-center justify-evenly">
+                <a
+                  href={applicant.resumeUrl}
+                  className="w-[30%] border  rounded-lg p-1.5 bg-black text-[#E0C163] font-semibold text-sm hover:bg-[#E0C163] hover:text-black duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Resume
+                </a>
+                <select className="w-[55%]  border border-black rounded-lg p-1.5 bg-black text-[#E0C163] font-semibold text-sm hover:bg-[#E0C163] hover:text-black duration-300">
+                  <option value={"Pending"}>Pending</option>
+                  <option value={"Accepted"}>Accepted</option>
+                  <option value={"Rejected"}>Rejected</option>
+                </select>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

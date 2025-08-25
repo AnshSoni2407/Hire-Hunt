@@ -55,11 +55,11 @@ const Login = () => {
          htmlFor="registerAs" className="text-xl">
           Register as
         </label>
-        <div className="w-full flex items-center justify-center mb-8 rounded-md overflow-hidden">
+        <div className="w-full flex items-center justify-center mb-8  overflow-hidden">
           <select
             id="registerAs"
             onChange={(e) => setregisterAs(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 text-center"
+            className="w-[90%] bg-gray-300 p-2 rounded-lg text-left"
             defaultValue="jobseeker"
           >
             <option value="jobseeker">Job Seeker</option>
@@ -73,11 +73,11 @@ const Login = () => {
         <label htmlFor="email" className="text-xl">
           Email Address
         </label>
-        <div className="w-full flex items-center justify-center mb-8 rounded-md overflow-hidden">
+        <div className="w-full flex items-center justify-center mb-8 overflow-hidden">
           <input
             type="email"
             onChange={(e) => setemail(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 text-center"
+            className="w-[90%] bg-gray-300 p-2 text-left rounded-lg"
             placeholder="Enter your Email"
           />
           <div className="w-[10%] bg-black p-2 text-white flex justify-center items-center text-2xl">
@@ -88,11 +88,11 @@ const Login = () => {
         <label htmlFor="password" className="text-xl">
           Password
         </label>
-        <div className="w-full flex items-center justify-center mb-8 rounded-md overflow-hidden">
+        <div className="w-full flex items-center justify-center mb-8 overflow-hidden">
           <input
             type="password"
             onChange={(e) => setpassword(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 text-center"
+            className="w-[90%] bg-gray-300 p-2 text-left rounded-lg"
             placeholder="Enter your Password"
           />
           <div className="w-[10%] bg-black p-2 text-white flex justify-center items-center text-2xl">

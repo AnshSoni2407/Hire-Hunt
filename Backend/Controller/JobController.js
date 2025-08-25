@@ -1,3 +1,4 @@
+import ApplicationModel from "../Model/Applications.model.js";
 import jobModel from "../Model/jobModel.js";
 import userModel from "../Model/user.model.js";
 
@@ -32,7 +33,6 @@ export const create = async (req, res) => {
       .findById(CreatedJob._id)
       .populate("postedBy");
 
-    // console.log("Job created successfully:", populatedJob);
 
     res
       .status(201)
@@ -48,7 +48,6 @@ export const create = async (req, res) => {
 export const fetch = async (req, res) => {
   try {
     const jobs = await jobModel.find();
-    console.log("Fetched jobs:", jobs);
     res.status(200).json(jobs);
   } catch (error) {
     console.error("Error fetching jobs:", error);
@@ -107,7 +106,6 @@ export const fetchCreatedJobs = async (req, res) => {
     const createdJobs = await userModel
       .findById(userId)
       .populate("CreatedJobs");
-    console.log(createdJobs, "Fetched created jobs for user", userId);
     res.status(200).json({ createdJobs });
   } catch (error) {
     console.log(error.message, `error in fetching created jobs`);
@@ -136,9 +134,9 @@ export const removeSavedJob = async (req, res) => {
 export const deleteJob =async (req, res)=>{
   const {jobId, userId} = req.params
   try {
-    // console.log(jobId, ' here it is', userId)
 
-  const deleteJob = await jobModel.findByIdAndDelete(jobId)
+  const deleteJob = await jobModel.findByIdAndDelete(jobId);
+                    await ApplicationModel.deleteMany({ jobId });
 
   if(!deleteJob){
     return res.status(400).json('job not found, delete not possible')
@@ -153,7 +151,6 @@ export const deleteJob =async (req, res)=>{
 export const updateJob = async (req, res) =>{
   const {jobId} = req.params
 try {
-  console.log(req.body, 'here is the body')
 
  const updateJob = await jobModel.findByIdAndUpdate(jobId, req.body, {new:true}) 
 res.status(200).json({message: 'Job updated successfully', updateJob})

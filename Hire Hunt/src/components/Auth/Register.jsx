@@ -80,20 +80,20 @@ const Register = () => {
         <label htmlFor="registerAs" className="text-xl">
           Register As
         </label>
-        <div className="w-[100%] flex items-center justify-center mb-8 rounded-md overflow-hidden">
+        <div className="w-[100%] flex items-center justify-center mb-8  overflow-hidden">
           <select
             id="registerAs"
             name="registerAs"
             onChange={(e) => {
               setRegisterAs(e.target.value);
             }}
-            className="w-[90%] bg-gray-300 p-2 text-center appearance-none"
+            className="w-[90%] bg-gray-300 p-2 text-left appearance-none rounded-md"
             defaultValue="jobseeker"
           >
-            <option className="text-center" value="employer">
+            <option className="text-left" value="employer">
               Employer
             </option>
-            <option className="text-center" value="jobseeker">
+            <option className="text-left" value="jobseeker">
               Job Seeker
             </option>
           </select>
@@ -106,12 +106,12 @@ const Register = () => {
         <label htmlFor="name" className="text-xl">
           Name
         </label>
-        <div className="w-[100%] flex items-center justify-center mb-8 rounded-md overflow-hidden">
+        <div className="w-[100%] flex items-center justify-center mb-8  overflow-hidden">
           <input
             type="text"
             id="name"
             onChange={(e) => setname(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 text-center"
+            className="w-[90%] bg-gray-300 p-2 text-left rounded-md"
             name="name"
             placeholder="Enter your name"
           />
@@ -124,12 +124,12 @@ const Register = () => {
         <label htmlFor="email" className="text-xl">
           Email Address
         </label>
-        <div className="w-[100%] flex items-center justify-center mb-8 rounded-md overflow-hidden">
+        <div className="w-[100%] flex items-center justify-center mb-8  overflow-hidden">
           <input
             type="email"
             id="email"
             onChange={(e) => setemail(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 text-center"
+            className="w-[90%] bg-gray-300 p-2 text-left rounded-md"
             name="email"
             placeholder="Enter your email"
           />
@@ -142,12 +142,12 @@ const Register = () => {
         <label htmlFor="phone" className="text-xl">
           Phone Number
         </label>
-        <div className="w-[100%] flex items-center justify-center mb-8 rounded-md overflow-hidden">
+        <div className="w-[100%] flex items-center justify-center mb-8 overflow-hidden">
           <input
             type="number"
             onChange={(e) => setphone(e.target.value)}
             id="phone"
-            className="w-[90%] bg-gray-300 p-2 text-center"
+            className="w-[90%] bg-gray-300 p-2 text-left rounded-md"
             name="phone"
             placeholder="Enter your phone"
           />
@@ -160,9 +160,9 @@ const Register = () => {
         <label htmlFor="password" className="text-xl">
           Password
         </label>
-        <div className="w-[100%] flex items-center justify-center mb-8 rounded-md overflow-hidden">
+        <div className="w-[100%] flex items-center justify-center mb-8 overflow-hidden">
           <input
-            className="w-[90%] bg-gray-300 p-2 text-center"
+            className="w-[90%] bg-gray-300 p-2 text-left rounded-md"
             type="password"
             onChange={(e) => setpassword(e.target.value)}
             id="password"
