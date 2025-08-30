@@ -2,19 +2,22 @@ import { React } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdPerson, IoIosMail, IoMdUnlock } from "react-icons/io";
 import { useState } from "react";
+import FancyLoader from '../Reusable.jsx/Loader.jsx'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 const Login = () => {
   const [RegisterAs, setregisterAs] = useState("jobseeker");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [isLoading, setisLoading] = useState(false);
   const Navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = {
-      RegisterAs: RegisterAs.trim().toLowerCase(),
       email: email.trim().toLowerCase(),
       password: password
     };
@@ -24,7 +27,9 @@ const Login = () => {
       const res = await axios.post("http://localhost:3000/auth/login", data,{
         withCredentials:true
       });
+      setisLoading(true);
       console.log("data sent to backend");
+      toast.success("Login successful!");
 
       const userRole = res.data.userdetail.RegisterAs;
       const userDetails = res.data.userdetail;
@@ -39,36 +44,24 @@ const Login = () => {
       }
     } catch (error) {
       console.log("Login error:", error.message);
+      toast.error("Login failed. Please try again.");
+    }
+    finally {
+      setisLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="min-h-screen flex justify-center items-center py-10 bg-gray-300 ">
+      <ToastContainer position="top-right" autoClose={3000} />
+      {isLoading && <FancyLoader />}
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center text-center justify-center h-auto w-[90%] md:w-1/2 p-4 bg-white rounded-lg"
+        className="flex flex-col items-center text-center justify-center h-auto w-[90%] md:w-1/2 p-4 bg-white rounded-lg min-w-[280px] min-h-"
       >
-        <h1 className="text-4xl font-bold mb-16">Login</h1>
+        <h1 className="text-4xl font-bold my-10">Login</h1>
 
-        <label
-        
-         htmlFor="registerAs" className="text-xl">
-          Register as
-        </label>
-        <div className="w-full flex items-center justify-center mb-8  overflow-hidden">
-          <select
-            id="registerAs"
-            onChange={(e) => setregisterAs(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 rounded-lg text-left"
-            defaultValue="jobseeker"
-          >
-            <option value="jobseeker">Job Seeker</option>
-            <option value="employer">Employer</option>
-          </select>
-          <div className="w-[10%] bg-black p-2 text-white flex justify-center items-center text-2xl">
-            <IoMdPerson />
-          </div>
-        </div>
+    
 
         <label htmlFor="email" className="text-xl">
           Email Address
@@ -76,12 +69,16 @@ const Login = () => {
         <div className="w-full flex items-center justify-center mb-8 overflow-hidden">
           <input
             type="email"
+            required
             onChange={(e) => setemail(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 text-left rounded-lg"
+            className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
             placeholder="Enter your Email"
           />
-          <div className="w-[10%] bg-black p-2 text-white flex justify-center items-center text-2xl">
-            <IoIosMail />
+          <div className="w-[10%] bg-black p-2 text-white flex justify-center items-center text-2xl rounded-tr-lg rounded-br-lg">
+            <span>
+              {" "}
+              <IoIosMail />
+            </span>
           </div>
         </div>
 
@@ -91,12 +88,15 @@ const Login = () => {
         <div className="w-full flex items-center justify-center mb-8 overflow-hidden">
           <input
             type="password"
+            required
             onChange={(e) => setpassword(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 text-left rounded-lg"
+            className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
             placeholder="Enter your Password"
           />
-          <div className="w-[10%] bg-black p-2 text-white flex justify-center items-center text-2xl">
-            <IoMdUnlock />
+          <div className="w-[10%] bg-black p-2 text-white flex justify-center items-center text-2xl rounded-tr-lg rounded-br-lg">
+            <span>
+              <IoMdUnlock />
+            </span>
           </div>
         </div>
 

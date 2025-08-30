@@ -120,10 +120,10 @@ console.log('Password updated successfully');
           className="object-contain w-32 h-12 rounded-3xl"
         />
 
-        <div className="hidden md:flex items-center gap-10 text-xl font-semibold text-gray-600">
+        <div className="hidden md:flex items-center gap-10 md:text-md font-semibold text-gray-600 text-center">
           {role === "employer" ? (
             <div
-              className="hover:underline cursor-pointer"
+              className="hover:underline cursor-pointer "
               onClick={() => {
                 const section = document.getElementById("created-jobs");
                 if (section) section.scrollIntoView({ behavior: "smooth" });
@@ -197,7 +197,7 @@ console.log('Password updated successfully');
               <div
                 onClick={() => setopenEditPasswordForm(true)}
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between"
-              >
+               >
                 <p>Change Password</p>
                 <FaLock />
               </div>
@@ -214,10 +214,10 @@ console.log('Password updated successfully');
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden mt-2 space-y-4 text-lg font-semibold text-gray-700 px-4 py-3 bg-white shadow-md rounded-md">
+        <div className="md:hidden absolute left-0 w-full text-lg font-semibold text-gray-700 text-center bg-white shadow-md ">
           {role === "employer" ? (
             <div
-              className="cursor-pointer border-b pb-2"
+              className="cursor-pointer border-b"
               onClick={() => {
                 const section = document.getElementById("created-jobs");
                 if (section) section.scrollIntoView({ behavior: "smooth" });
@@ -228,7 +228,7 @@ console.log('Password updated successfully');
             </div>
           ) : (
             <div
-              className="cursor-pointer border-b pb-2"
+              className="cursor-pointer border-b "
               onClick={() => {
                 const section = document.getElementById("featured-jobs");
                 if (section) section.scrollIntoView({ behavior: "smooth" });
@@ -244,7 +244,7 @@ console.log('Password updated successfully');
               setcontactUs(true);
               setMobileMenuOpen(false);
             }}
-            className="cursor-pointer border-b pb-2"
+            className="cursor-pointer border-b"
           >
             Contact Us
           </div>
@@ -253,7 +253,7 @@ console.log('Password updated successfully');
               to="/createdJobsTable"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <div className="cursor-pointer border-b pb-2">Created Jobs</div>
+              <div className="cursor-pointer border-b">Created Jobs</div>
             </Link>
           ) : (
             <div
@@ -261,18 +261,18 @@ console.log('Password updated successfully');
                 navigate("/saveJobsPage");
                 setMobileMenuOpen(false);
               }}
-              className="cursor-pointer border-b pb-2"
+              className="cursor-pointer border-b"
             >
               Saved Job
             </div>
           )}
           {role === "employer" ? (
             <Link to="/applicants" onClick={() => setMobileMenuOpen(false)}>
-              <div className="cursor-pointer border-b pb-2">Applicants</div>
+              <div className="cursor-pointer border-b ">Applicants</div>
             </Link>
           ) : (
             <Link to="/appliedJobs" onClick={() => setMobileMenuOpen(false)}>
-              <div className="cursor-pointer border-b pb-2">Applied Jobs</div>
+              <div className="cursor-pointer border-b">Applied Jobs</div>
             </Link>
           )}
         </div>
@@ -429,7 +429,7 @@ console.log('Password updated successfully');
           {/* Split Section */}
           <div className="flex flex-col md:flex-row h-[calc(100vh-72px)]">
             {/* Left Half - Contact Info */}
-            <div className="w-full md:w-1/2 flex items-center justify-center p-10">
+            <div className="w-full flex items-center justify-center p-10">
               <div className="text-center space-y-6 text-gray-800">
                 <div>
                   <h2 className="text-2xl font-bold text-black mb-2">
@@ -451,76 +451,10 @@ console.log('Password updated successfully');
                 </div>
               </div>
             </div>
-            {/* right Half - Empty */}
+          
 
 
-            <div className="w-full md:w-1/2 flex items-center justify-center p-10">
-              <form
-              
-                className="bg-white w-full max-w-2xl p-8 rounded-lg shadow-lg space-y-6"
-              >
-                <div>
-                  <label className="block text-gray-700 text-lg font-semibold mb-1">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    
-                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#c8ac5a]"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 text-lg font-semibold mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                   
-                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#c8ac5a]"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 text-lg font-semibold mb-1">
-                    You are a
-                  </label>
-                  <select
-                    name="role"
-                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#c8ac5a]"
-                  >
-                    <option>Job Seeker</option>
-                    <option>Employer</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 text-lg font-semibold mb-1">
-                    Issue
-                  </label>
-                  <textarea
-                    name="issue"
-                    rows="4"
-                    className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#c8ac5a]"
-                    placeholder="Write your complaint or issue..."
-                    required
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-[#c8ac5a] text-black font-semibold py-3 rounded-lg hover:bg-black hover:text-white transition"
-                >
-                  Submit
-                </button>
-
-             
-              </form>
-            </div>
+         
           </div>
         </div>
       )}

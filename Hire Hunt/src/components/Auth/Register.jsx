@@ -61,20 +61,18 @@ const Register = () => {
      setpassword("");
 
     } catch (error) {
-      console.error("Error submitting form:", error.message);
-      toast.error("❌ Registration Failed!");
+      console.error("Error submitting form:", error.response.data.message);
+      toast.error(`${error.response.data.message}`);
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="min-h-screen flex justify-center items-start py-10 bg-gray-300 ">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center text-center justify-center h-auto w-[90%] md:w-1/2 p-4 bg-white rounded-lg"
       >
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6">
-          Create a new account
-        </h1>
+        <h1 className="text-4xl font-bold my-10">Create a new account</h1>
 
         {/* Register As */}
         <label htmlFor="registerAs" className="text-xl">
@@ -87,7 +85,7 @@ const Register = () => {
             onChange={(e) => {
               setRegisterAs(e.target.value);
             }}
-            className="w-[90%] bg-gray-300 p-2 text-left appearance-none rounded-md"
+            className="w-[90%] bg-gray-300 p-2 text-left appearance-none rounded-tl-lg rounded-bl-lg"
             defaultValue="jobseeker"
           >
             <option className="text-left" value="employer">
@@ -97,8 +95,11 @@ const Register = () => {
               Job Seeker
             </option>
           </select>
-          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl">
-            <IoMdPerson />
+          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl rounded-br-lg rounded-tr-lg">
+            <span>
+              {" "}
+              <IoMdPerson />
+            </span>
           </div>
         </div>
 
@@ -111,12 +112,14 @@ const Register = () => {
             type="text"
             id="name"
             onChange={(e) => setname(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 text-left rounded-md"
+            className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
             name="name"
             placeholder="Enter your name"
           />
-          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl">
-            <MdDriveFileRenameOutline />
+          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl rounded-br-lg rounded-tr-lg">
+            <span>
+              <MdDriveFileRenameOutline />
+            </span>
           </div>
         </div>
 
@@ -129,12 +132,14 @@ const Register = () => {
             type="email"
             id="email"
             onChange={(e) => setemail(e.target.value)}
-            className="w-[90%] bg-gray-300 p-2 text-left rounded-md"
+            className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
             name="email"
             placeholder="Enter your email"
           />
-          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl">
-            <IoIosMail />
+          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl rounded-br-lg rounded-tr-lg">
+            <span>
+              <IoIosMail />
+            </span>
           </div>
         </div>
 
@@ -147,12 +152,14 @@ const Register = () => {
             type="number"
             onChange={(e) => setphone(e.target.value)}
             id="phone"
-            className="w-[90%] bg-gray-300 p-2 text-left rounded-md"
+            className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
             name="phone"
             placeholder="Enter your phone"
           />
-          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl">
-            <FaPhoneAlt />
+          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl rounded-br-lg rounded-tr-lg">
+            <span>
+              <FaPhoneAlt />
+            </span>
           </div>
         </div>
 
@@ -162,15 +169,17 @@ const Register = () => {
         </label>
         <div className="w-[100%] flex items-center justify-center mb-8 overflow-hidden">
           <input
-            className="w-[90%] bg-gray-300 p-2 text-left rounded-md"
+            className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
             type="password"
             onChange={(e) => setpassword(e.target.value)}
             id="password"
             name="password"
             placeholder="Enter your password"
           />
-          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl">
-            <IoMdUnlock />
+          <div className="h-full w-[10%] text-white bg-black p-2 flex items-center justify-center text-2xl rounded-br-lg rounded-tr-lg">
+            <span>
+              <IoMdUnlock />
+            </span>
           </div>
         </div>
 

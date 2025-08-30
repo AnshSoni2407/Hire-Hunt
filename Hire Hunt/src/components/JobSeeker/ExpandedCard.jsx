@@ -3,9 +3,12 @@ import { IoMdClose } from "react-icons/io";
 import { IoArrowBack } from "react-icons/io5";
 import Footer from "../Reusable.jsx/Footer.jsx";
 import axios from "axios";
+import FancyLoader from '../Reusable.jsx/Loader.jsx'
+import { toast, ToastContainer } from "react-toastify";
 
 const ExpandedCard = ({ closeExpand, job }) => {
   const [resume, setResume] = useState(null);
+  const [isLoading, setisLoading] = useState(false);
 
   const userId = JSON.parse(localStorage.getItem("loggedInEmp")).id;
   const jobId = job._id;
@@ -19,9 +22,11 @@ const ExpandedCard = ({ closeExpand, job }) => {
 
   const handleApply = async () => {
     const formData = new FormData();
+     setisLoading(true);
+    
     formData.append("resume", resume);
 
-    try {
+    try { 
       const res = await axios.post(
         `http://localhost:3000/application/apply/${jobId}/${userId}`,
         formData,
@@ -32,19 +37,23 @@ const ExpandedCard = ({ closeExpand, job }) => {
         }
       );
       console.log("Application submitted:", res.data);
+      toast.success("Application submitted successfully!");
     } catch (error) {
       console.log("error in apply job", error.message);
+      toast.error("Error submitting application.");
     }
     finally{
       setResume(null);
-      alert("Application submitted successfully!");
-      closeExpand();}
+      setisLoading(false);
+     setTimeout(() => closeExpand(), 3000);
+    }
 
   };
 
   return (
     <div className="fixed inset-0 z-50 bg-white overflow-y-auto shadow-xl">
-      {/* Header */}
+    
+      
       <div className="flex justify-between items-center p-4 shadow-lg bg-black">
         <button
           onClick={closeExpand}
@@ -60,7 +69,8 @@ const ExpandedCard = ({ closeExpand, job }) => {
           <IoMdClose />
         </button>
       </div>
-
+{isLoading && <FancyLoader />}
+<ToastContainer position="top-right" autoClose={3000} />
       {/* Main Content */}
       <section className="flex flex-col lg:flex-row min-h-[calc(100vh-140px)]">
         {/* Job Details Section */}
@@ -87,7 +97,6 @@ const ExpandedCard = ({ closeExpand, job }) => {
               />
             </div>
 
-            {/* Apply Button */}
             {!resume ? (
               <div className="flex justify-center p-4 rounded-lg bg-gray-300 text-gray-600 cursor-not-allowed">
                 Upload your Resume to apply

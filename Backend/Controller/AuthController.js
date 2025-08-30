@@ -16,13 +16,13 @@ export const signUp =  async (req, res) => {
   try {
     const userExist = await userModel.findOne({ email });
 
-    // Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
     req.body.password = hashedPassword;
 
     if (userExist) {
 
       return res.status(400).json({ message: "user already exist" });
+      
     }
 
     const savedData = await userModel.create(req.body);
@@ -42,7 +42,7 @@ export const signUp =  async (req, res) => {
 };
 
 export const login =  async (req, res) => {
-    const { email, password, RegisterAs } = req.body;
+    const { email, password } = req.body;
   
     try {
       const user = await userModel.findOne({ email });
@@ -57,13 +57,7 @@ export const login =  async (req, res) => {
         return res.status(401).json({ message: "invalid credential" });
       }
   
-      if (
-        user.RegisterAs.trim().toLowerCase() != RegisterAs.trim().toLowerCase()
-      ) {
-        return res.status(403).json({
-          message: `This user is not registered as ${user.RegisterAs} `,
-        });
-      }
+   
   
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",

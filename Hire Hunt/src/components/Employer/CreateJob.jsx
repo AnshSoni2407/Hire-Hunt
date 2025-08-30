@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { IoMdArrowBack } from "react-icons/io";
+import { toast, ToastContainer } from "react-toastify";
 
 
 const CreateJob = () => {
@@ -39,6 +40,7 @@ console.log(userId);
     try {
       const res = await axios.post("http://localhost:3000/job/create", data, {withCredentials: true });
       console.log("Job created successfully", res.data);
+      toast.success("Job created successfully!");
 
       setjobTitle("");
       setcompanyName("");
@@ -56,6 +58,7 @@ console.log(userId);
 
   return (
     <div className="flex justify-center items-center bg-gray-100 p-4 mt-8">
+      <ToastContainer position="top-right" autoClose={3000} />
       <form
         onSubmit={handleSubmit}
         className="relative bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl"

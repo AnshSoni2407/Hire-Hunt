@@ -79,3 +79,20 @@ export const fetchApplicants = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
+export const updateApplicationStatus = async (req, res) => {
+
+  const {applicationId} = req.params;
+  const status = req.body.status;
+
+  try {
+    console.log(applicationId, status)
+const res = await ApplicationModel.findByIdAndUpdate(applicationId, {status}, {new:true})
+console.log(res)
+  } catch (error) {
+    console.error("Update Application Status Error:", error.message);
+    res.status(500).json({ success: false, message: error.message });
+  }
+
+}

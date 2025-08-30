@@ -11,7 +11,7 @@ const SearchJob = ({ onSearch }) => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 mt-10 mb-9 bg-white">
-      <div className=" text-6xl text-center">
+      <div className=" text-4xl sm:text-6xl text-center">
         {" "}
         <p className="inline mb-5 text-gray-700 font-semibold ">
           Search, Apply & Get <br /> Your{" "}
@@ -21,7 +21,7 @@ const SearchJob = ({ onSearch }) => {
         </p>
       </div>
 
-      <div className="w-1/2 flex items-center bg-white border-2 border-gray-600 rounded-lg overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-purple-500 m-auto mt-10">
+      <div className="w-[75%] flex items-center bg-white border-2 border-gray-600 rounded-lg overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-purple-500 m-auto mt-10">
         <input
           value={searchTerm}
           onChange={(e) => {

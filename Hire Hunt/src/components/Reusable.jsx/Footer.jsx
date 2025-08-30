@@ -11,7 +11,7 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div className="flex flex-col gap-1 text-center">
+        <div className=" hidden sm:flex flex-col gap-1 text-center">
           <h3 className="font-semibold ">Download the app now</h3>
           <div>
             <img src="./public/ios-app_v1.png" className="inline cursor-pointer mr-2.5" />

@@ -98,8 +98,7 @@ const AppliedJobs = () => {
                     </td>
                     <td className="p-4">
                       <div
-                        onClick={() => console.log("Status Clicked")}
-                        className="bg-[#c8ac5a] text-black font-semibold hover:text-white px-3 py-1 md:px-4 md:py-2 rounded hover:bg-black transition duration-300 cursor-pointer"
+                        className="bg-[#c8ac5a] text-black font-semibold hover:text-white px-3 py-1 md:px-4 md:py-2 rounded hover:bg-black transition duration-300 cursor-default "
                       >
                         Applied
                       </div>
