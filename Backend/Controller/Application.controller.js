@@ -24,6 +24,7 @@ export const applyJob = async (req, res) => {
   }
 };
 
+// to fetch the applied jobs
 export const fetchAppliedJobs = async (req, res) => {
   const { userId } = req.params;
 

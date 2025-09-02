@@ -82,7 +82,7 @@ const CreatedJobTable = () => {
       </div>
 
       {createdJobsByEmp.length === 0 ? (
-        <div>NO CREATED JOBS</div>
+        <div className="text-3xl text-center">NO CREATED JOBS</div>
       ) : (
         <div className="w-full overflow-x-auto mt-8 mb-8">
           <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -140,31 +140,39 @@ const CreatedJobTable = () => {
 
       {/* MODAL */}
       {showEditModal && editFormData && (
-        <div className="fixed top-0 flex justify-center items-center bg-gray-200 p-4 w-full h-full ">
-          <form
+        <div className="fixed top-0 left-0 flex justify-center bg-black/40 p-4 w-full h-full z-50 overflow-auto">
+          <div className="bg-gray-100 p-4 rounded-xl overflow-y-scroll">
+
+         <form
             onSubmit={(e) => {
               e.preventDefault();
               handleUpdate();
             }}
-            className="relative bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl"
+            className="relative bg-white shadow-lg rounded-xl p-6 sm:p-8 w-full max-w-4xl"
           >
-            <div className="relative mb-18 bg-black text-[#E0C163] rounded-lg">
+            {/* Header */}
+            <div className="relative mb-6 bg-black text-[#E0C163] rounded-lg py-3">
+              {/* Back button */}
               <div
                 onClick={() => setShowEditModal(false)}
-                className="absolute top-0 left-3 text-3xl font-extrabold cursor-pointer text-black hover:bg-[#E0C163] hover:text-black p-1 rounded-full duration-300"
+                className="absolute top-1/2 -translate-y-1/2 left-3 text-2xl sm:text-3xl font-extrabold cursor-pointer text-white hover:bg-[#E0C163] hover:text-black p-1 rounded-full duration-300"
               >
                 <IoMdArrowBack />
               </div>
+              {/* Close button */}
               <div
                 onClick={() => setShowEditModal(false)}
-                className="absolute top-0 right-3 text-3xl font-extrabold cursor-pointer  text-black hover:bg-[#E0C163] hover:text-black p-1 rounded-full duration-300"
+                className="absolute top-1/2 -translate-y-1/2 right-3 text-2xl sm:text-3xl font-extrabold cursor-pointer text-white hover:bg-[#E0C163] hover:text-black p-1 rounded-full duration-300"
               >
                 <IoCloseOutline />
               </div>
+              <h2 className="text-center font-bold text-lg sm:text-xl">
+                Edit Job
+              </h2>
             </div>
 
             {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Job Title */}
               <div>
                 <label htmlFor="jobTitle" className="block font-semibold mb-1">
@@ -175,7 +183,7 @@ const CreatedJobTable = () => {
                   type="text"
                   value={editFormData.jobTitle}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
                   placeholder="Frontend Developer"
                   required
                 />
@@ -194,7 +202,7 @@ const CreatedJobTable = () => {
                   type="text"
                   value={editFormData.companyName}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
                   placeholder="TechCorp Inc."
                   required
                 />
@@ -210,7 +218,7 @@ const CreatedJobTable = () => {
                   type="text"
                   value={editFormData.location}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
                   placeholder="Dehradun"
                   required
                 />
@@ -225,7 +233,7 @@ const CreatedJobTable = () => {
                   name="jobType"
                   value={editFormData.jobType}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
                   required
                 >
                   <option value="">Select</option>
@@ -246,8 +254,8 @@ const CreatedJobTable = () => {
                   type="text"
                   value={editFormData.salary}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded"
-                  placeholder="20, 40, 60 LPA "
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
+                  placeholder="20, 40, 60 LPA"
                   required
                 />
               </div>
@@ -265,7 +273,7 @@ const CreatedJobTable = () => {
                   type="text"
                   value={editFormData.experience}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
                   placeholder="1-2 years"
                   required
                 />
@@ -273,7 +281,7 @@ const CreatedJobTable = () => {
             </div>
 
             {/* Skills */}
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6">
               <label htmlFor="skills" className="block font-semibold mb-1">
                 Skills Required
               </label>
@@ -281,7 +289,7 @@ const CreatedJobTable = () => {
                 name="skills"
                 value={editFormData.skills}
                 onChange={handleChange}
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
                 placeholder="React, Node.js, MongoDB, etc."
                 rows={3}
                 required
@@ -289,7 +297,7 @@ const CreatedJobTable = () => {
             </div>
 
             {/* Description */}
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6">
               <label htmlFor="description" className="block font-semibold mb-1">
                 Job Description
               </label>
@@ -297,7 +305,7 @@ const CreatedJobTable = () => {
                 name="description"
                 value={editFormData.description}
                 onChange={handleChange}
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#E0C163]"
                 placeholder="Write about responsibilities, requirements, perks, etc."
                 rows={4}
                 required
@@ -306,12 +314,12 @@ const CreatedJobTable = () => {
 
             <button
               type="submit"
-              className="w-full mt-8 bg-black text-[#E0C163] font-semibold py-2 rounded hover:bg-[#333] transition duration-300"
+              className="w-full mt-6 sm:mt-8 bg-black text-[#E0C163] font-semibold py-2 rounded hover:bg-[#333] transition duration-300"
             >
               Update Job
             </button>
           </form>
-        </div>
+        </div></div>
       )}
     </div>
   );

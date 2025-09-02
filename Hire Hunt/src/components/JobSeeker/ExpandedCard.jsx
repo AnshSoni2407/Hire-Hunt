@@ -95,6 +95,7 @@ const ExpandedCard = ({ closeExpand, job }) => {
                 type="file"
                 className="block w-full p-2 border border-black rounded-md bg-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-[#E0C163] file:text-black file:font-semibold hover:file:bg-black hover:file:text-[#E0C163] transition"
               />
+              <p className="text-center text-sm">Less than 5MB</p>
             </div>
 
             {!resume ? (

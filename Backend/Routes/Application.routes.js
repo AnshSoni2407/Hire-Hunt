@@ -17,4 +17,6 @@ router.get('/fetch/applicants/:userId', fetchApplicants)
 
 router.patch("/update/:applicationId", updateApplicationStatus);
 
+
+
 export default router
