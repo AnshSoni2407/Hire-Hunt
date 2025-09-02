@@ -43,8 +43,8 @@ const Login = () => {
         Navigate("/employerDash");
       }
     } catch (error) {
-      console.log("Login error:", error.message);
-      toast.error("Login failed. Please try again.");
+      console.log("Login error:", error.response.data.message);
+      toast.error(error.response.data.message);
     }
     finally {
       setisLoading(false);

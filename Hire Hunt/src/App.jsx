@@ -8,10 +8,12 @@ import SavedJobs from './components/JobSeeker/SavedJobs';
 import CreatedJobTable from './components/Employer/CreatedJobTable';
 import AppliedJobs from './components/JobSeeker/AppliedJobs';
 import Applicants from './components/Employer/Applicants';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
   return (
     <div>
+      <ToastContainer position="top-right" autoClose={2000} />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />

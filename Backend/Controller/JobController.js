@@ -39,7 +39,7 @@ export const create = async (req, res) => {
       .json({ message: "Job created successfully", job: populatedJob });
   } catch (error) {
     console.error("Error creating job:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error", error });
   }
 };
 
@@ -139,7 +139,7 @@ export const deleteJob =async (req, res)=>{
                     await ApplicationModel.deleteMany({ jobId });
 
   if(!deleteJob){
-    return res.status(400).json('job not found, delete not possible')
+    return res.status(400).json('job not found, delete not possible', deleteJob)
   }
   res.status(200).json({message:'job deleted successfully'}, deleteJob)
 

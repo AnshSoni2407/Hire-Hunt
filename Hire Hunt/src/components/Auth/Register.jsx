@@ -51,6 +51,7 @@ const Register = () => {
     };
 
     try {
+      
       const res = await axios.post("http://localhost:3000/auth/sign-up", data);
       console.log(`submitted`, res);
       toast.success("✅ Registration Successful!");

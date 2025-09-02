@@ -75,7 +75,7 @@ const SavedJobs = () => {
       </div>
 
       {/* Content */}
-      <div className="flex-grow">
+      <div className="flex-grow ">
         {cardExpand && (
           <ExpandedCard closeExpand={closeExpand} job={selectedJob} />
         )}

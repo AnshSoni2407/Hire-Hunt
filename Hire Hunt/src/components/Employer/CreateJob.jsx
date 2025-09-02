@@ -52,6 +52,7 @@ console.log(userId);
       setskills("");
 
     } catch (error) {
+      toast.error('Error while creating job ');
       console.error("Error creating job:", error.message);
     }
   };
@@ -141,6 +142,7 @@ console.log(userId);
             <input
               id="salary"
               type="number"
+              maxLength={3}
               value={salary}
               onChange={(e) => setsalary(e.target.value)}
               className="w-full p-2 border rounded"

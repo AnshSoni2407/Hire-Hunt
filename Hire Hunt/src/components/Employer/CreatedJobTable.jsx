@@ -3,6 +3,7 @@ import axios from "axios";
 import { IoCloseOutline } from "react-icons/io5";
 import { IoMdArrowBack } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const CreatedJobTable = () => {
   const [createdJobsByEmp, setcreatedJobsByEmp] = useState([]);
@@ -36,8 +37,10 @@ const CreatedJobTable = () => {
         `http://localhost:3000/job/deleteJob/${jobId}/${userId}`
       );
       setrefershFlag((prev) => !prev);
+      toast.success("Job deleted successfully");
     } catch (error) {
       console.log("error in job deleting", error.message);
+      toast.error("Error deleting job");
     }
   };
 
@@ -57,15 +60,18 @@ const CreatedJobTable = () => {
         `http://localhost:3000/job/update/${jobId}`,
         editFormData
       );
+      toast.success("Job updated successfully");
       setShowEditModal(false);
       setrefershFlag((prev) => !prev);
     } catch (error) {
       console.log("Update error:", error.message);
+      toast.error("Error updating job");
     }
   };
 
   return (
     <div>
+      <ToastContainer position="top-right" autoClose={2000} />
       <div className="flex items-center justify-between bg-black text-[#E0C163] p-2 shadow-lg w-full mb-6">
         <Link to={"/employerDash"}>
           <button className="text-2xl hover:text-black hover:bg-[#E0C163] p-2 rounded-full transition">

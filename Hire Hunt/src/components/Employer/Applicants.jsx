@@ -22,6 +22,7 @@ const Applicants = () => {
       setFilterApplicants(response.data.applicants);
     } catch (error) {
       console.error("Error fetching applicants:", error);
+      toast.error("Error fetching applicants");
     }
   };
 
@@ -29,16 +30,20 @@ const Applicants = () => {
     fetchApplicants();
   }, []);
 
+  useEffect(() => {
+    setFilterApplicants(applicants);
+  }, [applicants]);
 const handleStatusUpdate = async (applicationId, newStatus) => {
   try {
-    // 1. Backend update
-    const statusUpdateResponse = await axios.patch(
+    console.log("before api call");
+
+    const statusUpdate = await axios.patch(
       `http://localhost:3000/application/update/${applicationId}`,
       { status: newStatus }
     );
 
-    
-    // 2. Local state update (frontend turant dikhega)
+    console.log("after api call", statusUpdate);
+
     setApplicants((prev) =>
       prev.map((app) =>
         app._id === applicationId ? { ...app, status: newStatus } : app
@@ -50,10 +55,14 @@ const handleStatusUpdate = async (applicationId, newStatus) => {
         app._id === applicationId ? { ...app, status: newStatus } : app
       )
     );
+
+    toast.success(`Status updated to ${newStatus}`);
   } catch (error) {
     console.error("Error updating status:", error);
+    toast.error("Failed to update status");
   }
 };
+
 
 
   // Filter applicants
@@ -67,7 +76,6 @@ const handleStatusUpdate = async (applicationId, newStatus) => {
 
   return (
     <div>
-
       <div className="flex items-center justify-between bg-black text-[#E0C163] p-2 shadow-lg w-full mb-6">
         <Link to="/employerDash">
           <button className="text-2xl hover:text-black hover:bg-[#E0C163] p-2 rounded-full transition">
@@ -84,6 +92,7 @@ const handleStatusUpdate = async (applicationId, newStatus) => {
         </Link>
       </div>
 
+ 
       {/* Filter Buttons */}
       <div className="flex justify-evenly w-full mb-4">
         <button
@@ -112,7 +121,7 @@ const handleStatusUpdate = async (applicationId, newStatus) => {
         </button>
       </div>
 
-      <ToastContainer position="top-right" autoClose={3000}  />
+      <ToastContainer position="top-right" autoClose={3000} />
       {/* Applicants List */}
       <div className="flex flex-wrap justify-center">
         {filterApplicants.length === 0 ? (

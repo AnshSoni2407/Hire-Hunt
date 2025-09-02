@@ -7,14 +7,14 @@ import { MdArrowBack } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { IoCloseOutline } from "react-icons/io5";
 import Footer from "./Footer";
+import { toast, ToastContainer} from "react-toastify";
 
 const Header = () => {
   const role = localStorage.getItem("role");
   const loggedInEmp = JSON.parse(localStorage.getItem("loggedInEmp"));
   const userName = loggedInEmp.name;
   const userId = loggedInEmp.id;
-  const userPhone = loggedInEmp.phone;
-  const password = loggedInEmp.password;
+  const userPhone = loggedInEmp.phone;  
   const profileLogo = loggedInEmp.name.charAt(0).toUpperCase();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,7 +27,6 @@ const Header = () => {
   const [currentPassword, setcurrentPassword] = useState("");
   const [newPassword, setnewPassword] = useState('')
   const [showReloginModel, setshowReloginModel] = useState(false);
-  const [isActive, setisActive] = useState('')
 
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -69,8 +68,10 @@ const Header = () => {
 try {
   const res = await axios.patch(`http://localhost:3000/auth/user/editPassword/${userId}`, data, { withCredentials: true });
 console.log('Password updated successfully'); 
+toast.success("Password updated successfully");
 } catch (error) {
-  console.log(`Error updating password: ${error.message}`);
+  console.log(`Error updating password: ${error}`, error);
+  toast.error(error.response.data.message);
   
 }
 
@@ -478,6 +479,7 @@ console.log('Password updated successfully');
           </div>
         </div>
       )}
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 };

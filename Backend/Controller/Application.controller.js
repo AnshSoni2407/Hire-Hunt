@@ -36,10 +36,9 @@ export const fetchAppliedJobs = async (req, res) => {
       populate: {
         path: "postedBy",
         model: "User",
-        select: 'phone',
+        select: "phone",
       },
     });
-
 
     res.status(200).json({
       message: "Fetched applied jobs successfully",
@@ -53,7 +52,6 @@ export const fetchAppliedJobs = async (req, res) => {
       .json({ success: false, message: "Failed to fetch applied jobs" });
   }
 };
-
 
 export const fetchApplicants = async (req, res) => {
   const { userId } = req.params;
@@ -81,19 +79,27 @@ export const fetchApplicants = async (req, res) => {
   }
 };
 
-
 export const updateApplicationStatus = async (req, res) => {
-
-  const {applicationId} = req.params;
+  const { applicationId } = req.params;
   const status = req.body.status;
 
   try {
-    console.log(applicationId, status)
-const res = await ApplicationModel.findByIdAndUpdate(applicationId, {status}, {new:true})
-console.log(res)
+    console.log(applicationId, status);
+    const updatedApplication = await ApplicationModel.findByIdAndUpdate(
+      applicationId,
+      { status },
+      { new: true }
+    );
+    console.log(updatedApplication);
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Status updated successfully",
+        updatedApplication,
+      });
   } catch (error) {
     console.error("Update Application Status Error:", error.message);
     res.status(500).json({ success: false, message: error.message });
   }
-
-}
+};
