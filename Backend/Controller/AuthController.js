@@ -30,7 +30,7 @@ export const signUp =  async (req, res) => {
 
     res.status(200).json({
       message: "User created successfully and saved in DB",
-      success: true,
+      success: true, savedData
     });
   } catch (error) {
     console.log(error.message, `er in finding exist email`);

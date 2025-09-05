@@ -9,6 +9,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
  
+
+  // regex for validation
+
   const nameRegex = /^[A-Za-z ]+$/;             
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
   const phoneRegex = /^[0-9]{10}$/;             
@@ -53,18 +56,22 @@ const Register = () => {
     try {
       
       const res = await axios.post("http://localhost:3000/auth/sign-up", data);
-      console.log(`submitted`, res);
+     
+
       toast.success("✅ Registration Successful!");
 
-     setname("");
-     setemail("");
-     setphone("");
-     setpassword("");
+
+      setname("");
+      setemail("");
+      setphone("");
+      setpassword("");
+      console.log(`submitted`, res);
 
     } catch (error) {
       console.error("Error submitting form:", error.response.data.message);
       toast.error(`${error.response.data.message}`);
     }
+    
   };
 
   return (
@@ -111,6 +118,7 @@ const Register = () => {
         <div className="w-[100%] flex items-center justify-center mb-8  overflow-hidden">
           <input
             type="text"
+            value={name}
             id="name"
             onChange={(e) => setname(e.target.value)}
             className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
@@ -132,6 +140,7 @@ const Register = () => {
           <input
             type="email"
             id="email"
+            value={email}
             onChange={(e) => setemail(e.target.value)}
             className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
             name="email"
@@ -151,6 +160,7 @@ const Register = () => {
         <div className="w-[100%] flex items-center justify-center mb-8 overflow-hidden">
           <input
             type="number"
+            value={phone}
             onChange={(e) => setphone(e.target.value)}
             id="phone"
             className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
@@ -172,6 +182,7 @@ const Register = () => {
           <input
             className="w-[90%] bg-gray-300 p-2 rounded-bl-lg rounded-tl-lg text-left"
             type="password"
+            value={password}
             onChange={(e) => setpassword(e.target.value)}
             id="password"
             name="password"

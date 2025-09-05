@@ -5,30 +5,50 @@ import connectDB from "./DB/db.connection.js";
 import cookieParser from "cookie-parser";
 import authRoutes from "./Routes/Auth.routes.js";
 import jobRoutes from "./Routes/Job.routes.js";
-import applicationRoutes from "./Routes/Application.routes.js"
+import applicationRoutes from "./Routes/Application.routes.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-(app.listen(PORT, () => {
-  console.log("Server is running on port =", PORT);
-}),
-connectDB)();
+//  Allowed origins
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://hh-frontend-delploy.vercel.app",
+];
 
-// Middleware setup
-
-app.use(cookieParser());
+//  CORS setup
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
+//  Middlewares
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+
+//  Routes
+app.get("/", (req, res) => {
+  res.send("servver is running...");
+});
 
 app.use("/auth", authRoutes);
 app.use("/job", jobRoutes);
 app.use("/application", applicationRoutes);
+
+//  Start Server + DB connect
+app.listen(PORT, () => {
+  console.log("Server is running on port =", PORT);
+  connectDB();
+});
